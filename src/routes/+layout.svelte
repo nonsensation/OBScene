@@ -1,21 +1,16 @@
-
-<style >
-
-</style>
+<script>
+  import "../app.postcss";
+</script>
 
 <div id="layout">
+  <header />
 
-<header>
+  <main>
+    <slot />
+  </main>
 
-</header>
-
-<main>
-    <slot></slot>
-</main>
-
-<footer>
-
-
-</footer>
-
+  <footer />
 </div>
+
+<style lang="postcss">
+</style>
