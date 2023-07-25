@@ -11,11 +11,12 @@
     "@sveltejs/adapter-auto": "^2.0.0",
     "@sveltejs/adapter-static": "^2.0.2",
     "@sveltejs/kit": "^1.20.4",
-    "svelte": "^4.0.5",
-    "vite": "^4.4.2",
+    "autoprefixer": "^10.4.14",
+    "carbon-components-svelte": "^0.79.0",
     "postcss": "^8.4.24",
     "postcss-load-config": "^4.0.1",
-    "autoprefixer": "^10.4.14"
+    "svelte": "^4.0.5",
+    "vite": "^4.4.2"
   },
   "type": "module",
   "dependencies": {
