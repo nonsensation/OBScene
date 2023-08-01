@@ -1,4 +1,60 @@
-import { persistBrowserLocal } from "@macfja/svelte-persistent-store"
-import { writable } from "svelte/store"
+import { browser } from '$app/environment'
+import { writable, get } from 'svelte/store'
 
-const theme = persistBrowserLocal(writable("light"), "myapp-theme")
+export const localStore = ( key, defaultValue ) =>
+    persistantStore( key, defaultValue, localStorage )
+
+export const sessionStore = ( key, defaultValue ) =>
+    persistantStore( key, defaultValue, sessionStorage )
+
+function persistantStore( key, defaultValue, storage )
+{
+    const store = writable( defaultValue )
+
+    if( !browser )
+        return store
+
+    const storedValueStr = storage.getItem( key )
+
+    if( storedValueStr != null )
+        store.set( JSON.parse( storedValueStr ) )
+
+    let seen = []
+
+    function replacer( key, val )
+    {
+        if( val != null && typeof val == "object" )
+        {
+            if( seen.indexOf( val ) >= 0 )
+            {
+                console.error( 'ALREADY SEEN: ' + key + " " + val )
+                return
+            }
+            seen.push( val )
+        }
+        return val
+    }
+
+    store.subscribe( ( val ) =>
+    {
+        if( [ null, undefined ].includes( val ) )
+            storage.removeItem( key )
+        else
+            storage.setItem( key, JSON.stringify( val , replacer ) )
+    } )
+
+    window.addEventListener( 'storage', () =>
+    {
+        const storedValueStr = storage.getItem( key )
+
+        if( storedValueStr == null )
+            return
+
+        const localValue = JSON.parse( storedValueStr )
+
+        if( localValue !== get( store ) )
+            store.set( localValue )
+    } )
+
+    return store
+}
