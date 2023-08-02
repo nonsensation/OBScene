@@ -1,8 +1,4 @@
 <style lang="postcss">
-    .connected {
-        outline: 1px solid green;
-    }
-
     input[type="number"] {
     }
 
@@ -30,15 +26,27 @@
             display: none;
         }
     }
+
+    .form {
+        width: 100%;
+        display: flex;
+        justify-content: stretch;
+        align-content: stretch;
+        gap: 0.2em;
+
+        input {
+            text-align: center;
+            width: 100%;
+        }
+    }
+
+    button {
+        width: 100%;
+    }
 </style>
 
 <div>
-    <button
-        type="button"
-        on:click={obsToggleConnection}
-        class:connected={$obsConnectionState === ObsConnectionState.Connected}
-        class:connecting={$obsConnectionState === ObsConnectionState.Connecting}
-    >
+    <button type="button" on:click={() => obsToggleConnection()}>
         {#if $obsConnectionState === ObsConnectionState.Connected}
             Disconnect
         {:else if $obsConnectionState === ObsConnectionState.Connecting}
@@ -49,34 +57,30 @@
             ERROR: ({$obsConnectionState})
         {/if}
     </button>
-    <input autocomplete="off" required type="text" title="IP" placeholder="IP: 192.168.56.1" bind:value={$obsIp} />
-    <input
-        autocomplete="off"
-        required
-        type="number"
-        pattern=""
-        title="Port (default: 4455)"
-        placeholder="Port (default: 4455)"
-        bind:value={$obsPort}
-    />
-    <input
-        autocomplete="off"
-        type="password"
-        title="Password (can be empty)"
-        placeholder=""
-        bind:value={$obsPassword}
-        bind:this={node_obsPW}
-    />
-    <input
-        type="checkbox"
-        name="showPassword"
-        title="Show Password"
-        bind:checked={showPassword}
-        on:change={showPassword ? (node_obsPW.type = "text") : (node_obsPW.type = "password")}
-    />
-    <textarea name="obsStatusLog" cols="10" rows="10" disabled bind:value={$obsStatusLog} />
-</div>
 
+    <div class="form">
+        <input autocomplete="off" required type="text" title="IP" placeholder="IP: 192.168.0.1" bind:value={$obsIp} />
+        <input
+            autocomplete="off"
+            required
+            type="number"
+            pattern=""
+            title="Port (default: 4455)"
+            placeholder="Port (default: 4455)"
+            bind:value={$obsPort}
+        />
+        <input
+            autocomplete="off"
+            type="password"
+            title="Password (can be empty)"
+            placeholder="Password (can be empty)"
+            bind:value={$obsPassword}
+            bind:this={node_obsPW}
+        />
+    </div>
+
+    <textarea name="obsStatusLog" cols="10" rows="15" disabled bind:value={$obsStatusLog} />
+</div>
 <script>
     import { onMount } from "svelte";
     import {

@@ -7,13 +7,13 @@
     font-family: 'Source Code Pro', monospace;
     font-family: 'Ubuntu', sans-serif;
 
-    --color-started: green;
-    --color-starting: yellow;
-    --color-stopping: yellow;
-    --color-stopped: crimson;
+    --color-started: lime;
+    --color-starting: gold;
+    --color-stopping: orange;
+    --color-stopped: red;
 }
 
-* {
+* , ::after, ::before {
     box-sizing: border-box;
 }
 
@@ -30,31 +30,36 @@ textarea ,
 button ,
 input {
     font-family: 'Ubuntu', sans-serif;
-    background-color: white;
+    background-color: transparent;
     border: 1px solid gray;
     border-radius: 0.35em;
     padding: 0.3em 0.5em;
-    margin: 0.2em;
+    margin: 0.2em 0;
+
+    &:focus {
+        outline: 1px solid slateblue;
+    }
+    &:hover {
+        outline: 1px solid teal;
+    }
 }
 
 button, input[type=checkbox] {
     cursor: pointer;
-
-    &:hover,
-    &:focus {
-        outline: 1px solid slateblue;
-    }
 }
 
 .connected,
-.active {
-    color: var(--color-started);
+.started {
+    color: green;
 }
+
 .connecting,
-.disconnecting {
-    color: var(--color-starting);
+.disconnecting,
+.stopping,
+.starting {
+    color: goldenrod;
 }
 .disconnected,
-.inactive {
-    color: var(--color-stopped);
+.stopped {
+    color: red;
 }

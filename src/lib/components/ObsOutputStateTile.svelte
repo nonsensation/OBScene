@@ -7,7 +7,7 @@
         justify-content: center;
         width: auto;
     }
-    .started {
+    /* .started {
         color: (--color-started);
     }
     .starting {
@@ -18,7 +18,7 @@
     }
     .stopped {
         color: (--color-stopped);
-    }
+    } */
 </style>
 
 <div

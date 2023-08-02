@@ -4,6 +4,7 @@
     div {
         display: flex;
         flex-direction: column;
+        /* color: white; */
     }
 
     .active {
@@ -15,6 +16,10 @@
 
     .label {
         font-size: 70%;
+    }
+
+    .material-symbols-rounded {
+        /* color: white; */
     }
 </style>
 

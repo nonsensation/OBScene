@@ -11,18 +11,31 @@
         display: flex;
         justify-content: space-around;
         align-items: center;
-        background-color: white;
+        gap: 0.5em;
     }
 
     header,
     footer {
-        padding: 0 0.2em;
+        padding: 0.2em 0.5em;
         width: 100%;
-        z-index: 0;
-        box-shadow: 0px 0px 10px black;
+        box-shadow: 0px 0px 0.5em black;
+        color: white;
     }
 
-    header {
+    header,
+    footer {
+        align-content: space-between;
+        button {
+            width: 100%;
+            border: none;
+
+            &.active {
+                outline: 2px solid slateblue;
+            }
+            &:hover {
+                outline: 2px solid teal;
+            }
+        }
     }
 
     footer {
@@ -33,10 +46,6 @@
         width: 100%;
         overflow-x: hidden;
         overflow-y: scroll;
-        border-top: 3px solid;
-        border-bottom: 3px solid;
-        border-color: red;
-        z-index: 1;
         padding: 0.5em;
         overflow-y: auto;
     }
@@ -46,7 +55,6 @@
         justify-content: space-around;
         align-items: center;
         gap: 1em;
-        /* outline: 1px solid red; */
         padding: 0.5em;
         background-color: transparent;
         border: none;
@@ -54,21 +62,23 @@
         padding: 0.25em;
         border-radius: 0.25em;
     }
-    .connected {
-    }
-    .connecting,
-    .disconnecting {
-    }
-    .disconnected {
-    }
 </style>
 
 <div id="layout">
     <header class="flex">
-        <button on:click={() => goto(`/${base}`)}>
-            <Icon title="Home" name="home" />
+        <button class:active={path === "/"} on:click={() => goto(`/${base}`)}>
+            <Icon title="Sideline" name="home" />
         </button>
-        <button on:click={() => goto("settings")}>
+        <button class:active={path === "/match"} on:click={() => goto("settings")}>
+            <Icon title="Match" name="trophy" />
+        </button>
+        <button class:active={path === "/sports"} on:click={() => goto("settings")}>
+            <Icon title="Sports" name="sports" />
+        </button>
+        <button class:active={path === "/teams"} on:click={() => goto("settings")}>
+            <Icon title="Teams" name="groups" />
+        </button>
+        <button class:active={path === "/settings"} on:click={() => goto("settings")}>
             <Icon title="Settings" name="settings" />
         </button>
     </header>
@@ -116,6 +126,7 @@
     import "../app.postcss";
     import { goto } from "$app/navigation";
     import { base } from "$app/paths";
+    import { page } from "$app/stores";
     import {
         ObsConnectionState,
         obsConnectionState,
@@ -133,4 +144,7 @@
     onMount(() => {
         obsTryConnect();
     });
+
+    let path;
+    $: path = $page.url.pathname;
 </script>
