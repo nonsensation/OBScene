@@ -11,6 +11,18 @@ export enum ObsOutputState
     Stopping = 'OBS_WEBSOCKET_OUTPUT_STOPPING',
 }
 
+// See: https://github.com/obsproject/obs-websocket/blob/master/docs/generated/protocol.md#requeststatus
+enum ObsRequestStatus
+{
+    Unknown = 0,
+    NoError = 10,
+    Success = 100,
+    MissingRequestType = 203,
+    UnknownRequestType = 204,
+    GenericError = 205,
+    InvalidResourceState = 604,
+}
+
 export enum ObsConnectionState
 {
     Disconnected = 'DISCONNECTED',
@@ -57,7 +69,7 @@ function createObsStore()
 {
     let obsWs
 
-    return readable( null , function start( set, update )
+    return readable( null, function start( set, update )
     {
         if( obsWs )
             return
@@ -89,14 +101,29 @@ function obsInit()
 
     obsWs.addListener( 'Identified', async () =>
     {
-        obsLog( 'Identified' )
+        obsLog( 'EVENT: Identified' )
 
         obsConnectionState.set( ObsConnectionState.Connected )
 
+        // Check if Replay-Buffer is enabled
+
+        let replayActive = false
+
+        try
+        {
+            const { outputActive } = await obsWs.call( 'GetReplayBufferStatus' )
+
+            replayActive = outputActive
+        }
+        catch( error )
+        {
+            if( error instanceof OBSWebSocketError && error.code && error.code == ObsRequestStatus.InvalidResourceState )
+                obsLog( 'Replay-Buffer not available! (Enable in OBS-Settings)' )
+        }
+
+        const { currentProgramSceneName } = await obsWs.call( 'GetCurrentProgramScene' )
         const { outputActive: recordingActive } = await obsWs.call( 'GetRecordStatus' )
         const { outputActive: streamingActive } = await obsWs.call( 'GetStreamStatus' )
-        const { outputActive: replayActive } = await obsWs.call( 'GetReplayBufferStatus' )
-        const { currentProgramSceneName } = await obsWs.call( 'GetCurrentProgramScene' )
 
         obsCurrentScene.set( currentProgramSceneName )
         obsRecordingState.set( recordingActive ? ObsOutputState.Started : ObsOutputState.Stopped )
@@ -106,6 +133,8 @@ function obsInit()
 
     obsWs.addListener( 'ConnectionClosed', ( error: any ) =>
     {
+        obsLog( 'EVENT: Identified' )
+
         obsConnectionState.set( ObsConnectionState.Disconnected )
 
         switch( error.code )
@@ -115,7 +144,7 @@ function obsInit()
                 break
 
             case WebSocketStatusCode.CloseGoingAway:
-                obsLog( `Closing connection due to websocket server is going down or browsewr navigated away from page.` )
+                obsLog( `Closing connection (server offline or navigated away)` )
                 break
 
             default:
@@ -133,6 +162,8 @@ function obsInit()
 
     obsWs.addListener( 'ConnectionError', ( error: any ) =>
     {
+        obsLog( 'EVENT: Identified' )
+
         obsConnectionState.set( ObsConnectionState.Disconnected )
 
         if( error.code === -1 )
@@ -153,28 +184,28 @@ function obsInit()
 
     obsWs.addListener( 'CurrentProgramSceneChanged', ( { sceneName } ) =>
     {
-        obsLog( 'CurrentProgramSceneChanged: ' + sceneName )
+        obsLog( 'EVENT: CurrentProgramSceneChanged: ' + sceneName )
 
         obsCurrentScene.set( sceneName )
     } )
 
     obsWs.addListener( 'StreamStateChanged', ( { outputActive, outputState } ) =>
     {
-        obsLog( 'StreamStateChanged: ' + outputState )
+        obsLog( 'EVENT: StreamStateChanged: ' + outputState )
 
         obsStreamingState.set( outputState as ObsOutputState )
     } )
 
     obsWs.addListener( 'RecordStateChanged', ( { outputActive, outputState } ) =>
     {
-        obsLog( 'RecordStateChanged: ' + outputState )
+        obsLog( 'EVENT: RecordStateChanged: ' + outputState )
 
         obsRecordingState.set( outputState as ObsOutputState )
     } )
 
     obsWs.addListener( 'ReplayBufferStateChanged', ( { outputActive, outputState } ) =>
     {
-        obsLog( 'ReplayBufferStateChanged: ' + outputState )
+        obsLog( 'EVENT: ReplayBufferStateChanged: ' + outputState )
 
         obsReplayBufferState.set( outputState as ObsOutputState )
     } )
@@ -252,9 +283,9 @@ export async function obsConnect()
 
         obsConnectionState.set( ObsConnectionState.Connected )
 
-        obsLog( `Connected.` )
         obsLog( `Version: ${ obsWebSocketVersion }` )
         obsLog( `RPC: ${ negotiatedRpcVersion }` )
+        obsLog( `Connected.` )
     }
     catch( error )
     {
