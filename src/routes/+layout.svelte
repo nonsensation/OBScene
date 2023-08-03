@@ -31,9 +31,7 @@
 
             &.active {
                 outline: 2px solid slateblue;
-            }
-            &:hover {
-                outline: 2px solid teal;
+                /* background-color: rgba(0, 0, 0, 0.138); */
             }
         }
     }
@@ -67,15 +65,18 @@
 <div id="layout">
     <header class="flex">
         <button class:active={path === "/"} on:click={() => goto(`/${base}`)}>
-            <Icon title="Sideline" name="home" />
+            <Icon title="Home" name="home" />
         </button>
-        <button class:active={path === "/match"} on:click={() => goto("settings")}>
+        <button class:active={path === "/match"} on:click={() => goto("match")} disabled>
             <Icon title="Match" name="trophy" />
         </button>
-        <button class:active={path === "/sports"} on:click={() => goto("settings")}>
+        <button class:active={path === "/floorball"} on:click={() => goto("floorball")}>
+            <Icon title="Floorball" name="sports_hockey" />
+        </button>
+        <button class:active={path === "/sports"} on:click={() => goto("sports")} disabled>
             <Icon title="Sports" name="sports" />
         </button>
-        <button class:active={path === "/teams"} on:click={() => goto("settings")}>
+        <button class:active={path === "/teams"} on:click={() => goto("teams")} disabled>
             <Icon title="Teams" name="groups" />
         </button>
         <button class:active={path === "/settings"} on:click={() => goto("settings")}>

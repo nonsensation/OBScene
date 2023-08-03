@@ -22,6 +22,9 @@
   },
   "type": "module",
   "dependencies": {
+    "dexie": "4.0.1-alpha.25",
+    "dseg": "^0.46.0",
+    "indexeddb-export-import": "^2.1.5",
     "material-icons": "^1.13.9",
     "material-symbols": "^0.10.2",
     "obs-websocket-js": "^5.0.3"

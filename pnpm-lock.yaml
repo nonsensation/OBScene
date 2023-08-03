@@ -5,6 +5,15 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  dexie:
+    specifier: 4.0.1-alpha.25
+    version: 4.0.1-alpha.25
+  dseg:
+    specifier: ^0.46.0
+    version: 0.46.0
+  indexeddb-export-import:
+    specifier: ^2.1.5
+    version: 2.1.5
   material-icons:
     specifier: ^1.13.9
     version: 1.13.9
@@ -888,6 +897,15 @@ packages:
     resolution: {integrity: sha512-KqFl6pOgOW+Y6wJgu80rHpo2/3H07vr8ntR9rkkFIRETewbf5GaYYcakYfiKz89K+sLsuPkQIZaXDMjUObZwWg==}
     dev: true
 
+  /dexie@4.0.1-alpha.25:
+    resolution: {integrity: sha512-udAExYYfJaC6IzVC+ygHdlWYoYxhwYHtiITkthGgSH7dh2FBk3qqDGkJ/Mn2lfxsmATcq9qJDUjyO7yWOo/ZPA==}
+    dev: false
+
+  /dseg@0.46.0:
+    resolution: {integrity: sha512-+wigrEmU4uJ75jtg26BFRoQdPXn8IVltzwI1ZDNsSoNdeO4vLpOssS/XNZNo8e3x5tBUBZd2aU0XeGhWniH8FA==}
+    engines: {node: '>=0.10.3'}
+    dev: false
+
   /electron-to-chromium@1.4.470:
     resolution: {integrity: sha512-zZM48Lmy2FKWgqyvsX9XK+J6FfP7aCDUFLmgooLJzA7v1agCs/sxSoBpTIwDLhmbhpx9yJIxj2INig/ncjJRqg==}
     dev: true
@@ -960,6 +978,11 @@ packages:
   /import-meta-resolve@3.0.0:
     resolution: {integrity: sha512-4IwhLhNNA8yy445rPjD/lWh++7hMDOml2eHtd58eG7h+qK3EryMuuRbsHGPikCoAgIkkDnckKfWSk2iDla/ejg==}
     dev: true
+
+  /indexeddb-export-import@2.1.5:
+    resolution: {integrity: sha512-gS6gVzFTDuT+r7KyZ3yrzflC8HfktezxAGyImCpICGX5WemMhBLnGaZMkZ0KYj+9hwVAM3dmXMTYy/NvtKAFlQ==}
+    engines: {node: '>=12'}
+    dev: false
 
   /is-reference@3.0.1:
     resolution: {integrity: sha512-baJJdQLiYaJdvFbJqXrcGv3WU3QCzBlUcI5QhbesIm6/xPsvmO+2CDoi/GMOFBQEQm+PXkwOPrp9KK5ozZsp2w==}

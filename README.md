@@ -1,5 +1,14 @@
 
 
+#### Import an SVG in Svelte
+
+```
+{@html sports_hockey}
+
+<script>
+    import sports_hockey from '$lib/assets/icons/sports_hockey.svg?raw'
+</script>
+```
 
 
 
@@ -8,6 +17,9 @@
 - https://github.com/MacFJA/svelte-persistent-store
 - https://github.com/obs-websocket-community-projects/obs-websocket-js
 - https://carbon-components-svelte.onrender.com/
+- 7 Segment Font https://www.keshikan.net/fonts-e.html
+- Dexie https://dexie.org/
+- https://github.com/Polarisation/indexeddb-export-import#readme
 
 # create-svelte
 

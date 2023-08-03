@@ -222,6 +222,8 @@ export async function obsSendData( eventName: string, data: any ): Promise<any |
         return
     }
 
+    console.assert( data === Object( data ), 'Primitive values cannot be send! Make it an Object instead ({data: myData})' )
+
     var response = await get( obs ).call( 'CallVendorRequest', {
         vendorName: 'obs-browser',
         requestType: 'emit_event',
