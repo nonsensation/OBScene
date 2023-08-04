@@ -64,24 +64,24 @@
 
 <div id="layout">
     <header class="flex">
-        <button class:active={path === "/"} on:click={() => goto(`/${base}`)}>
+        <a href="/{base}" class:active={path === `/${base}`} >
             <Icon title="Home" name="home" />
-        </button>
-        <button class:active={path === "/match"} on:click={() => goto("match")} disabled>
+        </a>
+        <a href="/" class:active={path === "/match"} >
             <Icon title="Match" name="trophy" />
-        </button>
-        <button class:active={path === "/floorball"} on:click={() => goto("floorball")}>
+        </a>
+        <a href="/floorball" class:active={path === "/floorball"}>
             <Icon title="Floorball" name="sports_hockey" />
-        </button>
-        <button class:active={path === "/sports"} on:click={() => goto("sports")} disabled>
+        </a>
+        <a href="/sports" class:active={path === "/sports"}>
             <Icon title="Sports" name="sports" />
-        </button>
-        <button class:active={path === "/teams"} on:click={() => goto("teams")} disabled>
+        </a>
+        <a href="/teams" class:active={path === "/teams"}>
             <Icon title="Teams" name="groups" />
-        </button>
-        <button class:active={path === "/settings"} on:click={() => goto("settings")}>
+        </a>
+        <a href="/settings" class:active={path === "/settings"}>
             <Icon title="Settings" name="settings" />
-        </button>
+        </a>
     </header>
 
     <main>
@@ -95,7 +95,7 @@
             class:connecting={$obsConnectionState === ObsConnectionState.Connecting}
             class:disconnected={$obsConnectionState === ObsConnectionState.Disconnected}
             class:disconnecting={$obsConnectionState === ObsConnectionState.Disconnecting}
-            on:click={() => goto("settings")}
+            on:click={() => goto("/settings")}
         >
             {#if $obsConnectionState === ObsConnectionState.Connected}
                 <ObsOutputStateTile>

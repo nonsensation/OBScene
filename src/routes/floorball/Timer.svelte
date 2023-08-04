@@ -22,9 +22,39 @@
         }
     }
 
+    .time {
+        display: grid;
+        display: none;
+        grid-template-columns: 1fr auto 1fr;
+
+        & * {
+            outline: 1px solid blue;
+        }
+
+        .min {
+            text-align: center;
+            justify-self: end;
+        }
+        .colon {
+            justify-self: center;
+            text-align: center;
+        }
+        .sec {
+            justify-self: start;
+            text-align: center;
+        }
+    }
+
 </style>
 
 <div class="scoreboard">
+    <div class="timer dseg">
+        <div class="time">
+            <div class="min">420</div>
+            <div class="colon">:</div>
+            <div class="sec">37</div>
+        </div>
+    </div>
 
     <div class="team">
         <div class="teamname">HOME</div>
