@@ -77,15 +77,16 @@
         flex-wrap: wrap;
         gap: 2rem;
         margin: 1rem;
+        margin: 1rem 0;
         padding: 2rem;
 
-        max-height: 75%;
+        max-height: 60%;
         overflow-y: scroll;
-        /* border: 1px solid white; */
+        border: 1px solid gray;
         border-radius: 0.25rem;
-        /* box-shadow: inset 0 0 3px black;
+        box-shadow: inset 0 0 3px gray;
         background-color: gainsboro;
-        background-color: white; */
+        background-color: white;
 
         .card {
             flex: 1 1 15rem;
@@ -114,16 +115,17 @@
                 height: 15rem;
                 width: 100%;
                 background-color: aqua;
+                padding: 0.5rem;
 
                 object-fit: contain;
                 cursor: pointer;
-                /* border: 1px solid gray; */
+                border: 1px solid gray;
                 border-radius: 0.25rem;
 
                 background: white
                     url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill-opacity=".05" ><rect x="50" width="50" height="50" /><rect y="50" width="50" height="50" /></svg>');
                 background-size: 1.5rem 1.5rem;
-                box-shadow: inset 0 0 10px black;
+                box-shadow: inset 0 0 10px gray;
 
                 /* background: white; */
             }
@@ -136,19 +138,29 @@
                 bottom: 0;
                 height: 2.5rem;
                 width: 100%;
-                border: 1px solid black;
+                border: 1px solid gray;
                 border-bottom-left-radius: 0.25rem;
                 border-bottom-right-radius: 0.25rem;
                 border-top: none;
                 background-color: white;
-                box-shadow: 0px 0px 3px black;
+                box-shadow: 0px 0px 3px gray;
                 font-weight: bold;
             }
         }
     }
+
+    .create {
+        border: 1px solid black;
+    }
 </style>
 
 <h1>{teams.length} Teams</h1>
+
+<a class="create" role="button" href="/team/create" title="Add a new Team">
+    <span class="icon material-symbols-rounded">add</span>
+    <span class="">Add new Team</span>
+</a>
+
 
 <div class="cards">
     {#each teams as team}
