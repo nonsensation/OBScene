@@ -154,25 +154,25 @@
     }
 </style>
 
-<h1>{teams.length} Teams</h1>
+<!-- <h1>{$teams.length} Teams</h1> -->
 
 <a class="create" role="button" href="/team/create" title="Add a new Team">
     <span class="icon material-symbols-rounded">add</span>
     <span class="">Add new Team</span>
 </a>
 
-
 <div class="cards">
-    {#each teams as team}
-        <a class="card" href="/team/{team.Id}" title="See Team {team.Name}">
-            <img class="logo" src="{team.Logo}" alt="Logo" />
-            <div class="name">{team.Name}</div>
-            <div class="info">{team.PlayerCount}</div>
-        </a>
-    {/each}
+    {#if $teams}
+        {#each $teams as team (team.id)}
+            <a class="card" href="/team/{team.id}" title="See Team {team.name}">
+                <img class="logo" src={URL.createObjectURL(team.logo)} alt="Logo" />
+                <div class="name">{team.name}</div>
+            </a>
+        {/each}
+    {/if}
 </div>
 
-<div class="table">
+<!-- <div class="table">
     <div class="header">
         <div class="row">
             <div class="col">#</div>
@@ -181,11 +181,11 @@
         </div>
     </div>
     <div class="content">
-        {#each teams as team}
+        {#each $teams as team}
             <a class="row" href="/team/{team.Id}" title="See Team {team.Name}">
                 <div class="col">{team.Id}</div>
                 <div class="col">{team.Name}</div>
-                <div class="col">{team.PlayerCount}</div>
+                <div class="col">0</div>
             </a>
         {/each}
     </div>
@@ -195,72 +195,19 @@
             <span class="">Add new Team</span>
         </a>
     </div>
-</div>
+</div> -->
 
 <script>
     import { goto } from "$app/navigation";
 
-    import logo1 from '$lib/assets/logos/Floorball Deutschland 1.png'
-    import logo2 from '$lib/assets/logos/Logo Black Lions Landsberg 0.png'
-    import logo3 from '$lib/assets/logos/Logo Hannover 96 - SW 3.png'
+    import logo1 from "$lib/assets/logos/Floorball Deutschland 1.png";
+    import logo2 from "$lib/assets/logos/Logo Black Lions Landsberg 0.png";
+    import logo3 from "$lib/assets/logos/Logo Hannover 96 - SW 3.png";
 
+    import { liveQuery } from "dexie";
+    import { db } from "$lib/database/dexie-db";
 
     export let data;
 
-    const teams = [
-        {
-            Id: 1,
-            Name: "Black Lions Landsberg",
-            PlayerCount: 22,
-            Logo: logo1,
-        },
-        {
-            Id: 1,
-            Name: "Black Lions Landsberg",
-            PlayerCount: 22,
-            Logo: logo3,
-        },
-        {
-            Id: 1,
-            Name: "Black Lions Landsberg",
-            PlayerCount: 22,
-            Logo: logo1,
-        },
-        {
-            Id: 1,
-            Name: "Black Lions Landsberg",
-            PlayerCount: 22,
-            Logo: logo2,
-        },
-        {
-            Id: 1,
-            Name: "Black Lions Landsberg",
-            PlayerCount: 22,
-            Logo: logo3,
-        },
-        {
-            Id: 1,
-            Name: "Black Lions Landsberg",
-            PlayerCount: 22,
-            Logo: logo2,
-        },
-        {
-            Id: 1,
-            Name: "Black Lions Landsberg",
-            PlayerCount: 22,
-            Logo: logo1,
-        },
-        {
-            Id: 1,
-            Name: "Black Lions Landsberg",
-            PlayerCount: 22,
-            Logo: logo2,
-        },
-        {
-            Id: 1,
-            Name: "Black Lions Landsberg",
-            PlayerCount: 22,
-            Logo: logo2,
-        },
-    ];
+    const teams = liveQuery(() => db.teams.toArray());
 </script>
