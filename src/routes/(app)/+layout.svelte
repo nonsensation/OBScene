@@ -124,7 +124,7 @@
 </div>
 
 <script>
-    import "../app.postcss";
+    import "../../app.postcss";
     import { goto } from "$app/navigation";
     import { base } from "$app/paths";
     import { page } from "$app/stores";

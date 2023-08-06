@@ -33,6 +33,8 @@
 
 
     <div class="quantico dseg">13</div>
+
+    <Scoreboard/>
 </div>
 
 
@@ -41,5 +43,6 @@
 
     import { scoreHome, scoreGuest } from "$lib/stores/floorball-store";
     import { obsSendData } from "$lib/stores/obs-store";
+    import Scoreboard from './Scoreboard.svelte'
 
 </script>
