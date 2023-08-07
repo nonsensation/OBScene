@@ -158,5 +158,5 @@
 </div>
 
 <script>
-
+export let scale = "50%";
 </script>

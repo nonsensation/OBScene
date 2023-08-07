@@ -2,9 +2,9 @@
 </style>
 
 {#if overlay}
-    <svelte:component this={overlay} />
+    <svelte:component this={overlay} {scale} />
 {:else}
-    NOT FOUND
+    ERROR - OVERLAY NOT FOUND
 {/if}
 
 <script type="text/javascript">
@@ -14,6 +14,8 @@
     import { onMount } from "svelte";
 
     export let data;
+
+    const scale = $page.url.searchParams.get("scale") ?? "100";
 
     let { overlayName } = data; // $page.data.team.id
     let overlay;
