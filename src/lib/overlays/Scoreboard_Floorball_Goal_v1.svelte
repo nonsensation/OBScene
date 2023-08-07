@@ -22,18 +22,19 @@
 
     .container {
         font-family: "Quantico", sans-serif;
+        font-weight: bold;
         background-color: transparent;
         height: 100%;
+        width: 100%;
         display: flex;
         align-items: start;
         justify-content: center;
         position: relative;
 
-
         &.preview {
             background: gray
-                    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill-opacity=".25" ><rect x="50" width="50" height="50" /><rect y="50" width="50" height="50" /></svg>');
-                background-size: 1rem 1rem;
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill-opacity=".25" ><rect x="50" width="50" height="50" /><rect y="50" width="50" height="50" /></svg>');
+            background-size: 1rem 1rem;
         }
     }
 
@@ -166,7 +167,6 @@
     img:not([src]) {
         visibility: hidden;
     }
-
 </style>
 
 <div class="container">
@@ -208,82 +208,83 @@
 <script type="text/javascript">
     import { scoreHome, scoreGuest } from "$lib/stores/floorball-store";
 
+    if (window.obs) {
+        let minNode, secNode;
 
-    let minNode, secNode;
+        window.addEventListener("load", () => {
+            window.addEventListener("3li_obs_browser_home_background", ({ detail }) => {
+                let node = document.getElementById("home");
+                node.style.backgroundImage = detail.background;
+            });
 
-    window.addEventListener("load", () => {
-        window.addEventListener("3li_obs_browser_home_background", ({ detail }) => {
-            let node = document.getElementById("home");
-            node.style.backgroundImage = detail.background;
+            window.addEventListener("3li_obs_browser_away_background", ({ detail }) => {
+                let node = document.getElementById("away");
+                node.style.backgroundImage = detail.background;
+            });
+
+            window.addEventListener("3li_obs_browser_home_logo", ({ detail }) => {
+                let node = document.getElementById("logo_home");
+                node.src = detail.image;
+            });
+
+            window.addEventListener("3li_obs_browser_away_logo", ({ detail }) => {
+                let node = document.getElementById("logo_away");
+                node.src = detail.image;
+            });
+
+            window.addEventListener("3li_obs_browser_score_home", ({ detail }) => {
+                let node = document.getElementById("score_home");
+                node.innerText = detail.score;
+            });
+
+            window.addEventListener("3li_obs_browser_score_away", ({ detail }) => {
+                let node = document.getElementById("score_away");
+                node.innerText = detail.score;
+            });
+
+            window.addEventListener("3li_obs_browser_period", ({ detail }) => {
+                let node = document.getElementById("period");
+                node.innerText = detail.period;
+            });
+
+            window.addEventListener("3li_obs_browser_home_name", ({ detail }) => {
+                let node = document.getElementById("name_home");
+                node.innerText = detail.name;
+            });
+
+            window.addEventListener("3li_obs_browser_away_name", ({ detail }) => {
+                let node = document.getElementById("name_away");
+                node.innerText = detail.name;
+            });
+
+            window.addEventListener("3li_obs_browser_home_textcolor", ({ detail }) => {
+                let node = document.getElementById("name_home");
+                node.style.color = detail.textcolor;
+            });
+
+            window.addEventListener("3li_obs_browser_away_textcolor", ({ detail }) => {
+                let node = document.getElementById("name_away");
+                node.style.color = detail.textcolor;
+            });
+
+            minNode = document.getElementById("time_min");
+            secNode = document.getElementById("time_sec");
+
+            window.addEventListener("3li_obs_browser_time", ({ detail }) => {
+                let min = parseInt(detail.min) || 0;
+                let sec = parseInt(detail.sec) || 0;
+
+                let m = min < 10 ? "0" + min : min;
+                let s = sec < 10 ? "0" + sec : sec;
+
+                minNode.innerText = m;
+                secNode.innerText = s;
+            });
+
+            window.addEventListener("3li_obs_browser_time_enabled", ({ detail }) => {
+                let node = document.getElementById("time");
+                node.style.display = detail.time_enabled ? "grid" : "none";
+            });
         });
-
-        window.addEventListener("3li_obs_browser_away_background", ({ detail }) => {
-            let node = document.getElementById("away");
-            node.style.backgroundImage = detail.background;
-        });
-
-        window.addEventListener("3li_obs_browser_home_logo", ({ detail }) => {
-            let node = document.getElementById("logo_home");
-            node.src = detail.image;
-        });
-
-        window.addEventListener("3li_obs_browser_away_logo", ({ detail }) => {
-            let node = document.getElementById("logo_away");
-            node.src = detail.image;
-        });
-
-        window.addEventListener("3li_obs_browser_score_home", ({ detail }) => {
-            let node = document.getElementById("score_home");
-            node.innerText = detail.score;
-        });
-
-        window.addEventListener("3li_obs_browser_score_away", ({ detail }) => {
-            let node = document.getElementById("score_away");
-            node.innerText = detail.score;
-        });
-
-        window.addEventListener("3li_obs_browser_period", ({ detail }) => {
-            let node = document.getElementById("period");
-            node.innerText = detail.period;
-        });
-
-        window.addEventListener("3li_obs_browser_home_name", ({ detail }) => {
-            let node = document.getElementById("name_home");
-            node.innerText = detail.name;
-        });
-
-        window.addEventListener("3li_obs_browser_away_name", ({ detail }) => {
-            let node = document.getElementById("name_away");
-            node.innerText = detail.name;
-        });
-
-        window.addEventListener("3li_obs_browser_home_textcolor", ({ detail }) => {
-            let node = document.getElementById("name_home");
-            node.style.color = detail.textcolor;
-        });
-
-        window.addEventListener("3li_obs_browser_away_textcolor", ({ detail }) => {
-            let node = document.getElementById("name_away");
-            node.style.color = detail.textcolor;
-        });
-
-        minNode = document.getElementById("time_min");
-        secNode = document.getElementById("time_sec");
-
-        window.addEventListener("3li_obs_browser_time", ({ detail }) => {
-            let min = parseInt(detail.min) || 0;
-            let sec = parseInt(detail.sec) || 0;
-
-            let m = min < 10 ? "0" + min : min;
-            let s = sec < 10 ? "0" + sec : sec;
-
-            minNode.innerText = m;
-            secNode.innerText = s;
-        });
-
-        window.addEventListener("3li_obs_browser_time_enabled", ({ detail }) => {
-            let node = document.getElementById("time");
-            node.style.display = detail.time_enabled ? "grid" : "none";
-        });
-    });
+    }
 </script>

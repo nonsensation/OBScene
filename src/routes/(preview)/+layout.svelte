@@ -27,27 +27,5 @@
 
 <script>
     import "../../app.postcss";
-    import { goto } from "$app/navigation";
-    import { base } from "$app/paths";
-    import { page } from "$app/stores";
-    import {
-        ObsConnectionState,
-        obsConnectionState,
-        obsCurrentScene,
-        ObsOutputState,
-        obsReplayBufferState,
-        obsStreamingState,
-        obsRecordingState,
-        obsTryConnect,
-    } from "$lib/stores/obs-store";
-    import ObsOutputStateTile from "$lib/components/ObsOutputStateTile.svelte";
-    import Icon from "$lib/components/Icon.svelte";
-    import { onMount } from "svelte";
 
-    onMount(() => {
-        obsTryConnect();
-    });
-
-    let path;
-    $: path = $page.url.pathname;
 </script>

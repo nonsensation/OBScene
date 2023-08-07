@@ -79,6 +79,9 @@
         <a href="/teams" class:active={path === "/teams"}>
             <Icon title="Teams" name="groups" />
         </a>
+        <a href="/overlays" class:active={path === "overlays"}>
+            <Icon title="Overlays" name="preview" />
+        </a>
         <a href="/settings" class:active={path === "/settings"}>
             <Icon title="Settings" name="settings" />
         </a>
