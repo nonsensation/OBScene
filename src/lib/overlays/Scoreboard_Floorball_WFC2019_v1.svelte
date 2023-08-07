@@ -30,7 +30,7 @@
         background: linear-gradient(0deg, black 10%, white 5%);
     }
     .logo_home {
-        content: url("../../Shared/Logos/Black\ Lions\ Landsberg/Logo Black Lions Landsberg 0.png");
+        content: url("$lib/assets/logos/Logo Black Lions Landsberg 0.png");
     }
 
     .name_away::after {
@@ -40,7 +40,7 @@
         background: linear-gradient(0deg, green 10%, red 5%);
     }
     .logo_away {
-        content: url("../../Shared/Logos/Floorball Tigers Magdeburg/Logo-Floorball-Tigers-Magdeburg-1.png");
+        content: url("$lib/assets/logos/Logo Black Lions Landsberg 0.png");
     }
 
     .scoreboard {

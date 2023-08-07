@@ -156,7 +156,7 @@
 
 <!-- <h1>{$teams.length} Teams</h1> -->
 
-<a class="create" role="button" href="/team/create" title="Add a new Team">
+<a class="create" role="button" href="/teams/create" title="Add a new Team">
     <span class="icon material-symbols-rounded">add</span>
     <span class="">Add new Team</span>
 </a>
@@ -164,7 +164,7 @@
 <div class="cards">
     {#if $teams}
         {#each $teams as team (team.id)}
-            <a class="card" href="/team/{team.id}" title="See Team {team.name}">
+            <a class="card" href="/teams/{team.id}" title="See Team {team.name}">
                 <img class="logo" src={URL.createObjectURL(team.logo)} alt="Logo" />
                 <div class="name">{team.name}</div>
             </a>

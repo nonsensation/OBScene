@@ -8,14 +8,6 @@
         margin: 1rem 0;
         padding: 2rem;
 
-        max-height: 60%;
-        overflow-y: scroll;
-        border: 1px solid gray;
-        border-radius: 0.25rem;
-        box-shadow: inset 0 0 3px gray;
-        background-color: gainsboro;
-        background-color: white;
-
         .card {
             /* flex: 1 1 15rem;
             min-width: 15rem; */
@@ -44,7 +36,7 @@
 <div class="cards">
     {#each overlays as overlay}
         <a class="card preview" href="/overlay/{overlay.name}">
-            <svelte:component this={overlay.component} scale={50} />
+            <svelte:component this={overlay.component} scale={75} />
         </a>
     {/each}
 </div>
@@ -54,7 +46,6 @@
     let overlays = [];
     let overlayNames = [
         "Scoreboard_Floorball_Goal_v2",
-        "Scoreboard_Floorball_Goal_v1",
         "Scoreboard_Floorball_WFC2019_v1",
     ];
 
