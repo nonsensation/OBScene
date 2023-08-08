@@ -74,7 +74,7 @@ function createObsStore()
         if( obsWs )
             return
 
-        console.debug( "start" )
+        // console.debug( "start" )
 
         obsWs = obsInit()
 
@@ -82,7 +82,7 @@ function createObsStore()
 
         return function stop()
         {
-            console.debug( "stop" )
+            // console.debug( "stop" )
         }
     } )
 }

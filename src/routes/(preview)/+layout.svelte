@@ -27,5 +27,4 @@
 
 <script>
     import "../../app.postcss";
-    console.log(JSON.stringify(window.obsstudio))
 </script>

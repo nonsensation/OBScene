@@ -34,6 +34,7 @@
                 /* background-color: rgba(0, 0, 0, 0.138); */
             }
         }
+        user-select: none;
     }
 
     footer {
@@ -65,32 +66,19 @@
 <Meta title="lol" />
 <div id="layout">
     <header class="flex">
-        <a href="/{base}" class:active={path === `/${base}`} >
-            <Icon title="Home" name="home" />
-        </a>
-        <a href="/" class:active={path === "/match"} >
-            <Icon title="Match" name="trophy" />
-        </a>
-        <a href="/floorball" class:active={path === "/floorball"}>
-            <Icon title="Floorball" name="sports_hockey" />
-        </a>
-        <a href="/sports" class:active={path === "/sports"}>
-            <Icon title="Sports" name="sports" />
-        </a>
-        <a href="/teams" class:active={path === "/teams"}>
-            <Icon title="Teams" name="groups" />
-        </a>
-        <a href="/overlays" class:active={path === "overlays"}>
-            <Icon title="Overlays" name="preview" />
-        </a>
-        <a href="/settings" class:active={path === "/settings"}>
-            <Icon title="Settings" name="settings" />
-        </a>
+        {#each navItems as navItem}
+            <a href={navItem.path} class:active={path === navItem.path}>
+                <Icon title={navItem.text} name={navItem.icon} />
+            </a>
+        {/each}
     </header>
 
-    <main>
-        <slot />
-    </main>
+    {#key path}
+            <main in:fade>
+                <slot />
+            </main>
+    {/key}
+
     <footer class="flex">
         <button
             class="obs-state flex"
@@ -128,6 +116,7 @@
 </div>
 
 <script>
+    import { fade, blur, slide, scale, draw, crossfade } from "svelte/transition";
     import "../../app.postcss";
     import { goto } from "$app/navigation";
     import { base } from "$app/paths";
@@ -152,7 +141,44 @@
     });
 
     let path;
+
     $: path = $page.url.pathname;
 
-
+    const navItems = [
+        {
+            text: "Home",
+            icon: "home",
+            path: "/",
+        },
+        {
+            text: "Match",
+            icon: "trophy",
+            path: "/match/",
+        },
+        {
+            text: "Floorball",
+            icon: "sports_hockey",
+            path: "/floorball/",
+        },
+        {
+            text: "Sports",
+            icon: "sports",
+            path: "/sports/",
+        },
+        {
+            text: "Teams",
+            icon: "groups",
+            path: "/teams/",
+        },
+        {
+            text: "Overlays",
+            icon: "preview",
+            path: "/overlays/",
+        },
+        {
+            text: "Settings",
+            icon: "settings",
+            path: "/settings/",
+        },
+    ];
 </script>

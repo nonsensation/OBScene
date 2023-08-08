@@ -9,8 +9,6 @@
 <a href="/overlays" title="Click anywhere to go back">
     {#if overlay}
         <svelte:component this={overlay} {scale} />
-    {:else}
-        ERROR - OVERLAY NOT FOUND
     {/if}
 </a>
 
@@ -20,7 +18,6 @@
     import { page } from "$app/stores";
     import { goto } from "$app/navigation";
     import { onMount } from "svelte";
-
     export let data;
 
     const scale = $page.url.searchParams.get("scale") ?? "100";
@@ -29,6 +26,12 @@
     let overlay;
 
     onMount(async () => {
-        overlay = (await import(`/src/lib/overlays/${overlayName}.svelte`)).default;
+        try {
+            overlay = (await import(`/src/lib/overlays/${overlayName}.svelte`)).default;
+        }
+        catch( error )
+        {
+            goto( '/overlays' )
+        }
     });
 </script>

@@ -42,12 +42,11 @@
 </div>
 
 <script>
+    import { fade } from "svelte/transition";
+
     import { onMount } from "svelte";
     let overlays = [];
-    let overlayNames = [
-        "Scoreboard_Floorball_Goal_v2",
-        "Scoreboard_Floorball_WFC2019_v1",
-    ];
+    let overlayNames = ["Scoreboard_Floorball_Goal_v2", "Scoreboard_Floorball_WFC2019_v1"];
 
     onMount(async () => {
         for (const overlayName of overlayNames) {

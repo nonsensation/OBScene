@@ -1,9 +1,10 @@
 <style lang="postcss">
-    @import "material-symbols";
 </style>
 
+<h1>Under Construction</h1>
+
 {#each sports as sport }
-    {sport.name}<span class="material-symbols-rounded">{sport.material_icon}</span>
+    <!-- {sport.name}<span class="material-symbols-rounded">{sport.material_icon}</span> -->
 {/each}
 
 <script>
