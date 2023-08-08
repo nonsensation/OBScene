@@ -62,6 +62,7 @@
     }
 </style>
 
+<Meta title="lol" />
 <div id="layout">
     <header class="flex">
         <a href="/{base}" class:active={path === `/${base}`} >
@@ -141,6 +142,7 @@
         obsRecordingState,
         obsTryConnect,
     } from "$lib/stores/obs-store";
+    import Meta from "$lib/components/Meta.svelte";
     import ObsOutputStateTile from "$lib/components/ObsOutputStateTile.svelte";
     import Icon from "$lib/components/Icon.svelte";
     import { onMount } from "svelte";
@@ -151,4 +153,6 @@
 
     let path;
     $: path = $page.url.pathname;
+
+
 </script>

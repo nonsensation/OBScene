@@ -39,7 +39,7 @@
 
 
 <script>
-    import "dseg/css/dseg.css";
+    import "dseg/css/dseg.css"
 
     import { scoreHome, scoreGuest } from "$lib/stores/floorball-store";
     import { obsSendData } from "$lib/stores/obs-store";

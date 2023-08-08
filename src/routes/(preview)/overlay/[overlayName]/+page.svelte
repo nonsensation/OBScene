@@ -1,16 +1,24 @@
 <style lang="postcss">
+    a {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
 </style>
 
-{#if overlay}
-    <svelte:component this={overlay} {scale} />
-{:else}
-    ERROR - OVERLAY NOT FOUND
-{/if}
+<a href="/overlays" title="Click anywhere to go back">
+    {#if overlay}
+        <svelte:component this={overlay} {scale} />
+    {:else}
+        ERROR - OVERLAY NOT FOUND
+    {/if}
+</a>
 
 <script type="text/javascript">
     // import Scoreboard_Floorball_Goal_v2 from "$lib/overlays/Scoreboard_Floorball_Goal_v2.svelte";
 
     import { page } from "$app/stores";
+    import { goto } from "$app/navigation";
     import { onMount } from "svelte";
 
     export let data;

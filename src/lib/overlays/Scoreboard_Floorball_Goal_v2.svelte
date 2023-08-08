@@ -6,6 +6,7 @@
         font-weight: bold;
         font-size: 175%;
         width: 100%;
+        height: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -44,10 +45,10 @@
         background-size: 0.4em 0.4em;
 
         display: grid;
-        grid-template-columns: 1fr auto 1fr;
+        grid-template-columns: auto auto;
 
         .score {
-            padding: 0.4em 0.25em;
+            padding: 0.4em 0.5em;
             font-size: 150%;
             place-self: center;
         }
@@ -109,15 +110,14 @@
         <div class="board">
             <div class="team home">
                 <img src={logoHome} alt="" class="logo" />
-                <div class="name">Black Lions Landsberg</div>
+                <div class="name">Wildfire Tigers</div>
             </div>
             <div class="goal">
                 <div class="score home">{$scoreHome}</div>
-                <div class="score colon" />
                 <div class="score guest">{$scoreGuest}</div>
             </div>
             <div class="team guest">
-                <div class="name">Hannover 96</div>
+                <div class="name">Stealth Strikers</div>
                 <img src={logoGuest} alt="" class="logo" />
             </div>
         </div>
@@ -127,8 +127,8 @@
 <script type="text/javascript">
     import { scoreHome, scoreGuest } from "$lib/stores/floorball-store";
 
-    import logoHome from "$lib/assets/logos/Logo Black Lions Landsberg 0.png";
-    import logoGuest from "$lib/assets/logos/Logo Hannover 96 - SW 3.png";
+    import logoHome from "$lib/assets/logos/Logo-Home.png";
+    import logoGuest from "$lib/assets/logos/Logo-Guest.png";
 
     export let scale = 100
 </script>

@@ -6,157 +6,140 @@
 
 -->
 
-<style>
-    @import url("https://fonts.googleapis.com/css2?family=family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+<style lang="postcss">
+    @import url("https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 
-    .scoreboard {
+    .container {
         font-family: "Quantico", sans-serif;
-        font-weight: 900;
-        width: 30em;
-    }
-
-    .name_home,
-    #score_home {
-        color: black;
-    }
-    .name_away,
-    #score_away {
-        color: black;
-    }
-    .name_home::after {
-        content: "Black Lions";
-    }
-    .home {
-        background: linear-gradient(0deg, black 10%, white 5%);
-    }
-    .logo_home {
-        content: url("$lib/assets/logos/Logo Black Lions Landsberg 0.png");
-    }
-
-    .name_away::after {
-        content: "Magdeburg";
-    }
-    .away {
-        background: linear-gradient(0deg, green 10%, red 5%);
-    }
-    .logo_away {
-        content: url("$lib/assets/logos/Logo Black Lions Landsberg 0.png");
+        font-weight: bold;
+        font-size: 175%;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .scoreboard {
-        position: relative;
         display: flex;
         flex-direction: column;
-        margin: 3em;
+        align-items: center;
     }
 
-    .header {
-        display: flex;
+    .top {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        background-color: black;
         width: 100%;
-        background-color: rgb(0, 0, 0);
-        color: rgb(255, 255, 255);
-        flex-direction: row;
-        justify-content: center;
-        font-weight: 500;
-        display: none;
-    }
-    .header > .period {
-        padding: 0.15em 0.5em;
-        padding-top: 0;
-        left: 0;
-        position: absolute;
-    }
-    .header > .time {
-        align-self: center;
-        color: transparent;
+        padding: 0.05em 0.3em;
+
+        .period,
+        .timer,
+        .special {
+            color: white;
+            font-weight: normal;
+        }
+        .period {
+            justify-self: start;
+        }
+        .timer {
+            justify-self: center;
+        }
+        .special {
+            justify-self: end;
+        }
     }
 
-    .body {
+    .board {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
     }
-    .teams {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        font-size: 175%;
-    }
-    .home {
-        width: 50%;
-        flex-direction: row;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    .away {
-        width: 50%;
-        display: flex;
-        align-items: center;
-        background-color: rgba(230, 190, 0, 0.99);
-        flex-direction: row;
-        justify-content: space-between;
-    }
-    .teamscore {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-    }
-    .logo {
-        display: flex;
-        padding: auto;
-        margin: auto;
-    }
-    .logo > img {
-        height: 1.25em;
-    }
-    .home > .logo {
-        padding-right: 0.2em;
-    }
-    .away > .logo {
-        padding-left: 0.2em;
-    }
-    .score,
-    .away,
-    .home {
-        padding: 0 0.2em;
-    }
-    .name {
+
+    .team {
+        height: 3em;
         overflow: hidden;
-        white-space: nowrap;
+        display: grid;
+        grid-template-columns: auto auto auto;
+
+        &.home {
+            color: black;
+            background: white;
+            border-bottom: 3px solid red;
+        }
+        &.guest {
+            color: white;
+            background: teal;
+            border-bottom: 3px solid darkmagenta;
+        }
+
+        .name {
+            min-width: 0; /* prevent the logo to overflow, change .name instead*/
+            padding: 0 1em;
+            place-self: center;
+            white-space: nowrap;
+            font-size: 170%;
+        }
+        .score {
+            /* outline: 1px solid green; */
+            font-size: 175%;
+            place-self: center;
+            padding: 0 0.5em;
+        }
+
+        img {
+            height: 3em;
+            object-fit: contain;
+            padding: 0.1em 0.2em;
+            z-index: 2;
+        }
     }
 </style>
 
-<div class="scoreboard">
-    <div class="header">
-        <div class="period" id="period">1. Drittel</div>
-        <div class="time">00:00</div>
-    </div>
-    <div class="body">
-        <div class="teams">
-            <div class="home">
-                <div class="logo">
-                    <img class="logo_home" src="" alt="" />
-                </div>
-                <div class="teamscore">
-                    <div class="dummy-to-center" />
-                    <div class="name name_home" />
-                    <div class="score" id="score_home">0</div>
-                </div>
+<div class="container" style="font-size: {scale}%">
+    <div class="scoreboard">
+        <div class="top">
+            <div class="period">1st Period</div>
+            <div class="timer">13:37</div>
+            <div class="special">Empty Net</div>
+        </div>
+        <div class="board">
+            <div bind:this={teamHome} class="team home">
+                <img class="logo" src={logoHome} alt="" />
+                <div bind:this={nameHome} class="name">Home</div>
+                <div bind:this={scoreHome} class="score">0</div>
             </div>
-            <div class="away">
-                <div class="teamscore" style="color: rgb(0, 0, 0)">
-                    <div class="score" id="score_away">0</div>
-                    <div class="name name_away" />
-                    <div class="dummy-to-center" />
-                </div>
-                <div class="logo">
-                    <img class="logo_away" src="" alt="" />
-                </div>
+            <div bind:this={teamGuest} class="team guest">
+                <div bind:this={scoreGuest} class="score">0</div>
+                <div bind:this={nameGuest} class="name">Guest</div>
+                <img class="logo" src={logoGuest} alt="" />
             </div>
         </div>
     </div>
 </div>
 
-<script>
-export let scale = "50%";
+<script type="text/javascript">
+    import { onMount } from "svelte";
+    import { scoreboard } from "$lib/stores/scoreboard-store";
+    import logoHome from "$lib/assets/logos/Logo-Home.png";
+    import logoGuest from "$lib/assets/logos/Logo-Guest.png";
+
+    export let scale = 100;
+
+    let scoreHome, nameHome, scoreGuest, nameGuest, teamHome, teamGuest;
+
+    onMount(() => {
+        teamHome.style.backgroundColor = $scoreboard["HOME"].primaryColor;
+        teamHome.style.borderColor = $scoreboard["HOME"].secondaryColor;
+        nameHome.textContent = $scoreboard["HOME"].name;
+        nameHome.style.color = $scoreboard["HOME"].textColor;
+        scoreHome.textContent = $scoreboard["HOME"].score;
+        scoreHome.style.color = $scoreboard["HOME"].scoreColor;
+
+        teamGuest.style.backgroundColor = $scoreboard["GUEST"].primaryColor;
+        teamGuest.style.borderColor = $scoreboard["GUEST"].secondaryColor;
+        nameGuest.textContent = $scoreboard["GUEST"].name;
+        nameGuest.style.color = $scoreboard["GUEST"].textColor;
+        scoreGuest.textContent = $scoreboard["GUEST"].score;
+        scoreGuest.style.color = $scoreboard["GUEST"].scoreColor;
+    });
 </script>
