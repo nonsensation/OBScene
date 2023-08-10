@@ -15,7 +15,7 @@ export const scoreboard = localStore( 'scoreboard', {
     "GUEST" : {
         score: 0,
         name: "Stealth Strikers",
-        shortName: "SSs",
+        shortName: "STS",
         textColor: "white",
         scoreColor: "white",
         primaryColor: "teal",

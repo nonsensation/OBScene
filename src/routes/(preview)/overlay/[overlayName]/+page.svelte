@@ -6,7 +6,7 @@
     }
 </style>
 
-<a href="/overlays" title="Click anywhere to go back">
+<a in:fade href="/overlays" title="Click anywhere to go back">
     {#if overlay}
         <svelte:component this={overlay} {scale} />
     {/if}
@@ -18,6 +18,7 @@
     import { page } from "$app/stores";
     import { goto } from "$app/navigation";
     import { onMount } from "svelte";
+    import { fade } from "svelte/transition";
     export let data;
 
     const scale = $page.url.searchParams.get("scale") ?? "100";

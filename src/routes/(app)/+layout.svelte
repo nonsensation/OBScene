@@ -74,9 +74,9 @@
     </header>
 
     {#key path}
-            <main in:fade>
-                <slot />
-            </main>
+        <main in:fade>
+            <slot />
+        </main>
     {/key}
 
     <footer class="flex">

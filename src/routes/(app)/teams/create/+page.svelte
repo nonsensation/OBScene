@@ -1,7 +1,7 @@
 <div>
     <p>{status}</p>
 
-    <form action="?/create" use:enhance>
+    <form action="?/create">
         <ImgInput bind:blob bind:name={imgName} />
         <fieldset>
             <legend>Add new friend</legend>
