@@ -172,11 +172,11 @@
     let scoreHome, nameHome, scoreGuest, nameGuest, teamHome, teamGuest;
 
     onMount(() => {
-        // teamHome.style.borderColor = $scoreboard["HOME"].primaryColor;
-        // nameHome.textContent = $scoreboard["HOME"].shortName;
-        // scoreHome.textContent = $scoreboard["HOME"].score;
-        // teamGuest.style.borderColor = $scoreboard["GUEST"].primaryColor;
-        // nameGuest.textContent = $scoreboard["GUEST"].shortName;
-        // scoreGuest.textContent = $scoreboard["GUEST"].score;
+        teamHome.style.borderColor = $scoreboard["HOME"].primaryColor;
+        nameHome.textContent = $scoreboard["HOME"].Name;
+        scoreHome.textContent = $scoreboard["HOME"].score;
+        teamGuest.style.borderColor = $scoreboard["GUEST"].primaryColor;
+        nameGuest.textContent = $scoreboard["GUEST"].Name;
+        scoreGuest.textContent = $scoreboard["GUEST"].score;
     });
 </script>

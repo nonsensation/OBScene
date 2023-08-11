@@ -13,6 +13,7 @@
             min-width: 15rem; */
             width: 100%;
             min-height: 17rem;
+            height: auto;
             border-radius: 0.25rem;
             position: relative;
 
@@ -47,6 +48,8 @@
     import { onMount } from "svelte";
     let overlays = [];
     let overlayNames = [
+        "Starting_FD_Pokal_v1",
+        "Starting_v1",
         "Scoreboard_PremierLeague_v1",
         "Scoreboard_Floorball_Goal_v2",
         "Scoreboard_Floorball_WFC2019_v1",
@@ -54,15 +57,19 @@
 
     onMount(async () => {
         for (const overlayName of overlayNames) {
-            // cannot use $lib in dynamic string import (yet)
-            // See: https://github.com/vitejs/vite/pull/7756
-            const componentName = `/src/lib/overlays/${overlayName}.svelte`;
-            const component = (await import(componentName)).default;
-            const overlay = {
-                name: overlayName,
-                component,
-            };
-            overlays = [...overlays, overlay];
+            try {
+                // cannot use $lib in dynamic string import (yet)
+                // See: https://github.com/vitejs/vite/pull/7756
+                const componentName = `/src/lib/overlays/${overlayName}.svelte`;
+                const component = (await import(/* @vite-ignore */ componentName)).default;
+                const overlay = {
+                    name: overlayName,
+                    component,
+                };
+                overlays = [...overlays, overlay];
+            } catch (error) {
+                console.error("Could not load dynamic svelte component: " + overlayName, error);
+            }
         }
     });
 </script>
