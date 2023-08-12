@@ -27,7 +27,8 @@
     "indexeddb-export-import": "^2.1.5",
     "material-icons": "^1.13.9",
     "material-symbols": "^0.10.2",
-    "obs-websocket-js": "^5.0.3"
+    "obs-websocket-js": "^5.0.3",
+    "zod": "^3.21.4"
   },
   "prettier": {
     "tabWidth": 4,

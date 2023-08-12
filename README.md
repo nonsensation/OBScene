@@ -23,7 +23,7 @@
 - Logo Ninja https://pixabay.com/illustrations/ninja-logo-icon-sport-ninja-logo-7210338/
 - Logo Lion https://pixabay.com/illustrations/cat-lion-animal-wildlife-wild-941821/
 - Flip Card Timer: https://zoel-countdowntimer.vercel.app/
-
+- Zod https://zod.dev/
 
 #### Project Structure
 

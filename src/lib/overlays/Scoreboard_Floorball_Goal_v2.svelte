@@ -33,8 +33,8 @@
 
     .goal {
         font-size: 150%;
-        border: 0.25em solid red;
-        border-radius: 1em;
+        border: 0.2em solid red;
+        border-radius: 0.75em;
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
         border-bottom: none;
@@ -42,7 +42,7 @@
         background-color: rgb(255, 255, 255);
         background-image: linear-gradient(rgba(0, 0, 0, 0.15) 0.1em, transparent 0.1em),
             linear-gradient(to right, rgba(0, 0, 0, 0.15) 0.1em, transparent 0.1em);
-        background-size: 0.4em 0.4em;
+        background-size: 0.3em 0.3em;
 
         display: grid;
         grid-template-columns: auto auto;
@@ -66,15 +66,15 @@
             display: grid;
             justify-content: space-between;
             grid-template-columns: auto 1fr;
-            border-top-left-radius: 2em;
-            border-bottom-left-radius: 2em;
+            /* border-top-left-radius: 2em; */
+            /* border-bottom-left-radius: 2em; */
         }
         &.guest {
             display: grid;
             grid-template-columns: 1fr auto;
             justify-content: space-between;
-            border-top-right-radius: 2em;
-            border-bottom-right-radius: 2em;
+            /* border-top-right-radius: 2em; */
+            /* border-bottom-right-radius: 2em; */
         }
 
         &.home {

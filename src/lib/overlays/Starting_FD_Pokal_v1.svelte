@@ -42,15 +42,15 @@
             z-index: 1;
         }
 
-        &:before {
+        /* &:before {
             backdrop-filter: blur(3px);
             mask: radial-gradient(circle, rgba(255, 255, 255, 00) 30%, rgba(255, 255, 255, 1) 60%);
-        }
+        } */
 
-        &:after {
+        /* &:after {
             backdrop-filter: grayscale();
             mask: radial-gradient(circle, rgba(255, 255, 255, 0.5) 30%, rgba(255, 255, 255, 1) 70%);
-        }
+        } */
     }
 
     .gradient {

@@ -11,6 +11,17 @@
     --color-starting: gold;
     --color-stopping: orange;
     --color-stopped: red;
+
+    --border-radius: 0.5em;
+    --border: 1px solid gray;
+    --shadow: 0 0 10px 5px black;
+
+
+    --hover-color: teal;
+    --focus-color: slateblue;
+    --outline-size: 2px;
+    --hover-outline: var(--outline-size) solid var(--hover-color);
+    --focus-outline: var(--outline-size) solid var(--focus-color);
 }
 
 *,
@@ -32,18 +43,18 @@ textarea,
 button,
 input {
     font-family: 'Ubuntu', sans-serif;
+    font-weight: bold;
     background-color: transparent;
-    border: 1px solid gray;
-    border-radius: 0.35em;
-    padding: 0.3em 0.5em;
-    margin: 0.2em 0;
+    border: var(--border);
+    border-radius: var(--border-radius);
+    width: 100%;
+    padding: 0.5em 1em;
 
     &:focus {
-        outline: 2px solid slateblue;
+        outline: var(--focus-outline);
     }
-
     &:hover {
-        outline: 2px solid teal;
+        outline: var(--hover-outline);
     }
 }
 

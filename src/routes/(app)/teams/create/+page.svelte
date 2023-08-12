@@ -1,36 +1,102 @@
+<style lang="postcss">
+    fieldset {
+        border: var(--border);
+        border-radius: var(--border-radius);
+        padding: 0.5em 1em;
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        width: 100%;
+
+        legend {
+            background-color: white;
+            padding: 0.5em 1em;
+            border: var(--border);
+            border-radius: var(--border-radius);
+        }
+    }
+
+    button {
+        background-color: gainsboro;
+    }
+</style>
+
+<Meta title="Add a new Team"/>
 <div>
     <p>{status}</p>
 
     <form action="?/create">
-        <ImgInput bind:blob bind:name={imgName} />
         <fieldset>
-            <legend>Add new friend</legend>
-            <label>
-                Name:
-                <input type="text" bind:value={teamName} required />
-            </label>
-            <br />
-        </fieldset>
-        <button on:click={addTeam}>Add Team</button>
-    </form>
+            <legend>Team</legend>
 
+            <Input
+                label="Name:"
+                title="Name of the team"
+                bind:value={teamName}
+                id="teamName"
+                type="text"
+                errors={errors?.["Name"]}
+            />
+            <ImgInput bind:blob bind:name={imgName} label="Logo:" errors={errors?.["Logo"]} />
+            <Input
+                label="ShortName:"
+                title="A short name of the team"
+                bind:value={shortName}
+                id="shortName"
+                type="text"
+                errors={errors?.["ShortName"]}
+            />
+            <button on:click|preventDefault={addTeam}>Add Team</button>
+
+        </fieldset>
+    </form>
 </div>
 
 <script>
     import { db } from "$lib/database/dexie-db";
-    import ImgInput from "$lib/components/ImgInput.svelte";
+    import { Meta, Input, ImgInput } from "$lib/components";
+    import { TeamSchema } from "$lib/database/models";
     import { goto } from "$app/navigation";
     import { enhance } from "$app/forms";
     import { TeamTable } from "$lib/database/dexie-db";
 
     let status = "";
     let teamName = "";
+    let shortName = "";
 
-    let blob;
-    let imgName = 'logo'
+    let nameErrors
+
+    let blob = new Blob();
+    let imgName = "logo";
+
+    $: console.log(teamName);
+
+    let validationResult ;
+    let errors
 
     async function addTeam() {
         console.assert(blob, "Blob is empty!");
+
+        validationResult = TeamSchema.safeParse( {
+            Name: teamName ,
+            ShortName: shortName ,
+            Logo: blob ,
+        } );
+
+        if( !validationResult.success )
+        {
+            errors = validationResult.error.flatten().fieldErrors
+            console.error( 'Errors: ' + JSON.stringify(errors) )
+
+            return;
+        }
+        else
+        {
+            errors = null
+            console.error( 'result: ' + JSON.stringify(validationResult) )
+        }
+
+        return;
 
         try {
             const id = await db.teams.add({
