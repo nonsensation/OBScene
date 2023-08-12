@@ -32,3 +32,5 @@ export const TeamSchema = z.object( {
         } )
     ,
 } )
+
+export type Team = z.infer<typeof TeamSchema>;

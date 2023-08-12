@@ -21,7 +21,7 @@
     }
 </style>
 
-<Meta title="Add a new Team"/>
+<Meta title="Add a new Team" />
 <div>
     <p>{status}</p>
 
@@ -32,94 +32,47 @@
             <Input
                 label="Name:"
                 title="Name of the team"
-                bind:value={teamName}
+                bind:value={team.name}
                 id="teamName"
                 type="text"
-                errors={errors?.["Name"]}
+                errors={errors?.name}
             />
-            <ImgInput bind:blob bind:name={imgName} label="Logo:" errors={errors?.["Logo"]} />
+            <ImgInput bind:blob={team.logo} name="logo" label="Logo:" errors={errors?.logo} />
             <Input
                 label="ShortName:"
                 title="A short name of the team"
-                bind:value={shortName}
+                bind:value={team.shortName}
                 id="shortName"
                 type="text"
-                errors={errors?.["ShortName"]}
+                errors={errors?.shortName}
             />
-            <button on:click|preventDefault={addTeam}>Add Team</button>
-
+            <button on:click={addTeam}>Add Team</button>
         </fieldset>
     </form>
 </div>
 
 <script>
-    import { db } from "$lib/database/dexie-db";
     import { Meta, Input, ImgInput } from "$lib/components";
-    import { TeamSchema } from "$lib/database/models";
+    import { createEntry, teamSchema , db } from "$lib/database/dexie-db";
     import { goto } from "$app/navigation";
-    import { enhance } from "$app/forms";
-    import { TeamTable } from "$lib/database/dexie-db";
 
     let status = "";
-    let teamName = "";
-    let shortName = "";
 
-    let nameErrors
+    let errors;
 
-    let blob = new Blob();
-    let imgName = "logo";
-
-    $: console.log(teamName);
-
-    let validationResult ;
-    let errors
+    let team = {
+        name: "",
+        shortName: "",
+        logo: null, //new Blob(),
+    };
 
     async function addTeam() {
-        console.assert(blob, "Blob is empty!");
+        let success;
 
-        validationResult = TeamSchema.safeParse( {
-            Name: teamName ,
-            ShortName: shortName ,
-            Logo: blob ,
-        } );
+        ({ success, errors } = await createEntry(team, teamSchema, db.teams));
 
-        if( !validationResult.success )
-        {
-            errors = validationResult.error.flatten().fieldErrors
-            console.error( 'Errors: ' + JSON.stringify(errors) )
-
-            return;
-        }
-        else
-        {
-            errors = null
-            console.error( 'result: ' + JSON.stringify(validationResult) )
-        }
-
-        return;
-
-        try {
-            const id = await db.teams.add({
-                name: teamName,
-                logo: blob,
-            });
-
-            status = `Team ${teamName} successfully added. Got id ${id}`;
-
-            goto("/teams");
-        } catch (error) {
-            status = `Failed to add ${teamName}: ${error}`;
-        }
+        if (success) goto("/teams");
     }
 
-    // function onImageChange() {
-    //     let file = inputLogo.files[0];
-    //     let reader = new FileReader();
 
-    //     reader.onloadend = async function () {
-    //         blob = new Blob([reader.result], { type: file.type });
-    //         imgLogo.src = URL.createObjectURL(blob);
-    //     };
-    //     reader.readAsArrayBuffer(file);
-    // }
 </script>

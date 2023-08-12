@@ -55,8 +55,6 @@
 <script lang="ts">
     type InputTypes = "text" | "password";
 
-    $: console.log("VALUE: " + value);
-
     export let type: InputTypes = "text";
     export let value: string = "";
     export let placeholder: string = "";
