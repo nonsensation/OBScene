@@ -48,11 +48,11 @@
     import { onMount } from "svelte";
     let overlays = [];
     let overlayNames = [
-        "Popup_Goal_v1",
-        "Starting_FD_Pokal_v1",
-        "Starting_v1",
-        "Scoreboard_PremierLeague_v1",
-        "Scoreboard_Floorball_Goal_v2",
+        // "Popup_Goal_v1",
+        // "Starting_FD_Pokal_v1",
+        // "Starting_v1",
+        // "Scoreboard_PremierLeague_v1",
+        // "Scoreboard_Floorball_Goal_v2",
         "Scoreboard_Floorball_WFC2019_v1",
     ];
 

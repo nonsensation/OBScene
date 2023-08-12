@@ -1,8 +1,15 @@
 import { writable, readable, get } from 'svelte/store'
 import { sessionStore, localStore } from './PersistantStore'
 
-export const scoreHome = localStore( 'score_home', 0 )
-export const scoreGuest = localStore( 'score_guest', 0 )
+const team = {
+    score: 0,
+    name: 'FC Team Banana',
+    shortName: 'TEAM',
+    primaryColor: 'white',
+    secondaryColor: 'red',
+    textColor: 'black',
+    scoreColor: 'black',
+}
 
-
-export const logoHome = localStore( 'logo_home' , '' )
+export const teamHome = localStore( 'team_home', team )
+export const teamGuest = localStore( 'team_guest', team )

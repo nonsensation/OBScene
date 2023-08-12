@@ -80,8 +80,7 @@
             font-size: 170%;
         }
         .score {
-            /* outline: 1px solid green; */
-            font-size: 175%;
+            font-size: 200%;
             place-self: center;
             padding: 0 0.5em;
         }
@@ -98,9 +97,9 @@
 <div class="container" style="font-size: {scale}%">
     <div class="scoreboard">
         <div class="top">
-            <div class="period">1st Period</div>
-            <div class="timer">13:37</div>
-            <div class="special">Empty Net</div>
+            <div bind:this={period} class="period">1st Period</div>
+            <div bind:this={timer} class="timer">13:37</div>
+            <div bind:this={special} class="special">Empty Net</div>
         </div>
         <div class="board">
             <div bind:this={teamHome} class="team home">
@@ -117,29 +116,39 @@
     </div>
 </div>
 
-<script type="text/javascript">
-    import { onMount } from "svelte";
+<script>
     import { scoreboard } from "$lib/stores/scoreboard-store";
-    import logoHome from "$lib/assets/logos/Logo-Home.png";
-    import logoGuest from "$lib/assets/logos/Logo-Guest.png";
+    import { liveQuery } from "dexie";
+    import { db } from "$lib/database/dexie-db";
 
     export let scale = 100;
 
-    let scoreHome, nameHome, scoreGuest, nameGuest, teamHome, teamGuest;
+    let isMounted = false;
+    let timer, period, special;
+    let scoreHome, nameHome, teamHome, logoHome;
+    let scoreGuest, nameGuest, teamGuest, logoGuest;
 
-    onMount(() => {
-        teamHome.style.backgroundColor = $scoreboard["HOME"].primaryColor;
-        teamHome.style.borderColor = $scoreboard["HOME"].secondaryColor;
-        nameHome.textContent = $scoreboard["HOME"].name;
-        nameHome.style.color = $scoreboard["HOME"].textColor;
-        scoreHome.textContent = $scoreboard["HOME"].score;
-        scoreHome.style.color = $scoreboard["HOME"].scoreColor;
+    let teamHomeModel = liveQuery(() => db.teams.where("id").equals($scoreboard.home.teamId).first());
+    let teamGuestModel = liveQuery(() => db.teams.where("id").equals($scoreboard.guest.teamId).first());
 
-        teamGuest.style.backgroundColor = $scoreboard["GUEST"].primaryColor;
-        teamGuest.style.borderColor = $scoreboard["GUEST"].secondaryColor;
-        nameGuest.textContent = $scoreboard["GUEST"].name;
-        nameGuest.style.color = $scoreboard["GUEST"].textColor;
-        scoreGuest.textContent = $scoreboard["GUEST"].score;
-        scoreGuest.style.color = $scoreboard["GUEST"].scoreColor;
-    });
+    $: if ($teamHomeModel) logoHome = URL.createObjectURL($teamHomeModel.logo);
+    $: if ($teamGuestModel) logoGuest = URL.createObjectURL($teamGuestModel.logo);
+
+    $: if (teamHome) teamHome.style.backgroundColor = $scoreboard.home.primaryColor;
+    $: if (teamHome) teamHome.style.borderColor = $scoreboard.home.secondaryColor;
+    $: if (nameHome) nameHome.textContent = $scoreboard.home.name;
+    $: if (nameHome) nameHome.style.color = $scoreboard.home.textColor;
+    $: if (scoreHome) scoreHome.textContent = $scoreboard.home.score;
+    $: if (scoreHome) scoreHome.style.color = $scoreboard.home.scoreColor;
+
+    $: if (teamGuest) teamGuest.style.backgroundColor = $scoreboard.guest.primaryColor;
+    $: if (teamGuest) teamGuest.style.borderColor = $scoreboard.guest.secondaryColor;
+    $: if (nameGuest) nameGuest.textContent = $scoreboard.guest.name;
+    $: if (nameGuest) nameGuest.style.color = $scoreboard.guest.textColor;
+    $: if (scoreGuest) scoreGuest.textContent = $scoreboard.guest.score;
+    $: if (scoreGuest) scoreGuest.style.color = $scoreboard.guest.scoreColor;
+
+    $: if (timer) timer.textContent = $scoreboard.time.min + ":" + $scoreboard.time.sec;
+    $: if (period) period.textContent = $scoreboard.period;
+    $: if (special) special.textContent = $scoreboard.special;
 </script>

@@ -2,8 +2,9 @@ import { writable, readable, get } from 'svelte/store'
 import { sessionStore, localStore } from './PersistantStore'
 
 export const scoreboard = localStore( 'scoreboard', {
-    "HOME" : {
+    home : {
         score: 0,
+        teamId: 0,
         name: "Wildfire Tigers",
         shortName: "WFT",
         textColor: "black",
@@ -12,8 +13,9 @@ export const scoreboard = localStore( 'scoreboard', {
         secondaryColor: "orangered",
         background: "",
     },
-    "GUEST" : {
+    guest : {
         score: 0,
+        teamId: 1,
         name: "Stealth Strikers",
         shortName: "STS",
         textColor: "white",
@@ -21,5 +23,11 @@ export const scoreboard = localStore( 'scoreboard', {
         primaryColor: "teal",
         secondaryColor: "darkmagenta",
         background: "",
+    },
+    period: "1. Drittel",
+    special: "",
+    time: {
+        min: 13,
+        sec: 37,
     }
 } )
