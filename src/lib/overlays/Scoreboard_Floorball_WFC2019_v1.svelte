@@ -28,7 +28,7 @@
 
     .top {
         display: grid;
-        grid-template-columns: 1fr auto 1fr;
+        grid-template-columns: auto auto auto;
         background-color: black;
         width: 100%;
         padding: 0.05em 0.3em;
@@ -96,7 +96,7 @@
 
 <div class="container" style="font-size: {scale}%">
     <div class="scoreboard">
-        <div class="top">
+        <div bind:this={top} class="top">
             <div bind:this={period} class="period">1st Period</div>
             <div bind:this={timer} class="timer">13:37</div>
             <div bind:this={special} class="special">Empty Net</div>
@@ -120,11 +120,16 @@
     import { scoreboard } from "$lib/stores/scoreboard-store";
     import { liveQuery } from "dexie";
     import { db } from "$lib/database/dexie-db";
+    import { onMount } from "svelte";
 
     export let scale = 100;
 
+    onMount( async () => {
+        isMounted = true
+    })
+
     let isMounted = false;
-    let timer, period, special;
+    let timer, period, special, top;
     let scoreHome, nameHome, teamHome, logoHome;
     let scoreGuest, nameGuest, teamGuest, logoGuest;
 
@@ -152,6 +157,17 @@
     $: if (scoreGuest) scoreGuest.style.color = $scoreboard.guest.scoreColor;
 
     $: if (timer) timer.textContent = $scoreboard.time.min + ":" + $scoreboard.time.sec;
-    $: if (period) period.textContent = $scoreboard.period;
-    $: if (special) special.textContent = $scoreboard.special;
+    $: if (timer) timer.style.color = $scoreboard.time.enabled ? $scoreboard.time.textColor : "transparent";
+
+    $: if (period) period.textContent = $scoreboard.period.text;
+    $: if (special) period.style.color = $scoreboard.period.enabled ? $scoreboard.period.textColor : "transparent";
+
+    $: if (special) special.textContent = $scoreboard.special.text;
+    $: if (special) special.style.color = $scoreboard.special.enabled ? $scoreboard.special.textColor : "transparent";
+
+    $: if (top) top.style.backgroundColor = $scoreboard.time.backgroundColor;
+
+    $: if (top)
+        top.style.display =
+            $scoreboard.time.enabled || $scoreboard.period.enabled || $scoreboard.special.enabled ? "grid" : "none";
 </script>

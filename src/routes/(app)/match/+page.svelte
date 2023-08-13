@@ -5,9 +5,21 @@
     }
 
     .container {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1em;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 2rem;
+        padding: 2rem;
+
+        .team {
+            --min-width: 20rem;
+            flex: 1 1 var(--min-width);
+            min-width: var(--min-width);
+        }
+        .scoreboard {
+            flex-basis: 100%; /* new full width row */
+            width: 100%;
+        }
     }
 
     .selected {
@@ -18,12 +30,18 @@
         font-size: 80%;
     }
 
+    select {
+        margin-bottom: 1em;
+    }
+
     .color {
         width: 100%;
-        height: 2em;
+        height: 2.5em;
         overflow: hidden;
         border: var(--border);
         border-radius: var(--border-radius);
+        position: relative;
+        margin-bottom: 1em;
 
         input[type="color"] {
             border: 0;
@@ -32,12 +50,54 @@
             cursor: pointer;
             transform: translate(-25%, -25%);
         }
+
+        &[data-color]:after {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            content: attr(data-color);
+            text-transform: uppercase;
+            font-weight: bold;
+            mix-blend-mode: difference;
+            color: white;
+            pointer-events: none;
+        }
     }
 </style>
 
 <h1>Under Construction</h1>
 
 <div class="container">
+
+    <div class="scoreboard team">
+        <h2>Scoreboard</h2>
+
+        <button on:click={() => $scoreboard.time.enabled = !$scoreboard.time.enabled}>Toggle Time</button>
+
+        <label for="time-color">Timer:</label>
+        <div class="color" data-color={$scoreboard.time.textColor}>
+            <input bind:value={$scoreboard.time.textColor} type="color" id="time-color" />
+        </div>
+
+        <button on:click={() => $scoreboard.period.enabled = !$scoreboard.period.enabled}>Toggle Period</button>
+
+        <label for="period-color">Periode:</label>
+        <div class="color" data-color={$scoreboard.period.textColor}>
+            <input bind:value={$scoreboard.period.textColor} type="color" id="period-color" />
+        </div>
+
+        <button on:click={() => $scoreboard.special.enabled = !$scoreboard.special.enabled}>Toggle Special</button>
+
+        <label for="special-color">Special:</label>
+        <div class="color" data-color={$scoreboard.special.textColor}>
+            <input bind:value={$scoreboard.special.textColor} type="color" id="special-color" />
+        </div>
+
+        <label for="special-text">Special:</label>
+        <input type="text" id="special-text" bind:value={$scoreboard.special.text}>
+    </div>
+
     <div class="team home">
         <h2>Home-Team</h2>
 
@@ -54,17 +114,21 @@
         </select>
 
         <label for="home-primaryColor">Hauptfarbe:</label>
-        <div class="color">
+        <div class="color" data-color={$scoreboard.home.primaryColor}>
             <input bind:value={$scoreboard.home.primaryColor} type="color" id="home-primaryColor" />
         </div>
         <label for="home-secondaryColor">Nebenfarbe:</label>
-        <div class="color">
+        <div class="color" data-color={$scoreboard.home.secondaryColor}>
             <input bind:value={$scoreboard.home.secondaryColor} type="color" id="home-secondaryColor" />
         </div>
         <label for="home-textColor">Textfarbe:</label>
-        <div class="color"><input bind:value={$scoreboard.home.textColor} type="color" id="home-textColor" /></div>
+        <div class="color" data-color={$scoreboard.home.textColor}>
+            <input bind:value={$scoreboard.home.textColor} type="color" id="home-textColor" />
+        </div>
         <label for="home-scoreColor">Punktefarbe:</label>
-        <div class="color"><input bind:value={$scoreboard.home.scoreColor} type="color" id="home-scoreColor" /></div>
+        <div class="color" data-color={$scoreboard.home.scoreColor}>
+            <input bind:value={$scoreboard.home.scoreColor} type="color" id="home-scoreColor" />
+        </div>
     </div>
 
     <div class="team guest">
@@ -80,19 +144,25 @@
             {/if}
         </select>
 
-        <label for="home-primaryColor">Hauptfarbe:</label>
-        <div class="color">
-            <input bind:value={$scoreboard.guest.primaryColor} type="color" id="home-primaryColor" />
+        <label for="guest-primaryColor">Hauptfarbe:</label>
+        <div class="color" data-color={$scoreboard.guest.primaryColor}>
+            <input bind:value={$scoreboard.guest.primaryColor} type="color" id="guest-primaryColor" />
         </div>
-        <label for="home-secondaryColor">Nebenfarbe:</label>
-        <div class="color">
-            <input bind:value={$scoreboard.guest.secondaryColor} type="color" id="home-secondaryColor" />
+        <label for="guest-secondaryColor">Nebenfarbe:</label>
+        <div class="color" data-color={$scoreboard.guest.secondaryColor}>
+            <input bind:value={$scoreboard.guest.secondaryColor} type="color" id="guest-secondaryColor" />
         </div>
-        <label for="home-textColor">Textfarbe:</label>
-        <div class="color"><input bind:value={$scoreboard.guest.textColor} type="color" id="home-textColor" /></div>
-        <label for="home-scoreColor">Punktefarbe:</label>
-        <div class="color"><input bind:value={$scoreboard.guest.scoreColor} type="color" id="home-scoreColor" /></div>
+        <label for="guest-textColor">Textfarbe:</label>
+        <div class="color" data-color={$scoreboard.guest.textColor}>
+            <input bind:value={$scoreboard.guest.textColor} type="color" id="guest-textColor" />
+        </div>
+        <label for="guest-scoreColor">Punktefarbe:</label>
+        <div class="color" data-color={$scoreboard.guest.scoreColor}>
+            <input bind:value={$scoreboard.guest.scoreColor} type="color" id="guest-scoreColor" />
+        </div>
     </div>
+
+    <button on:click={reset}>Reset all Values!</button>
 </div>
 
 <script>
@@ -116,4 +186,9 @@
         allTeams = await db.teams.orderBy("name").toArray();
         teams = liveQuery(() => allTeams);
     });
+
+    async function reset()
+    {
+        localStorage.removeItem( 'scoreboard' );
+    }
 </script>
