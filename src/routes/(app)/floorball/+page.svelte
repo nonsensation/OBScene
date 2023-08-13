@@ -41,7 +41,7 @@
 <ul>
     {#if $teams}
         {#each $teams as team (team.id)}
-            <button on:click={() => lol(team.id)}>{team.Name}</button>
+            <button on:click={() => lol(team.id)}>{team.name}</button>
             <img src={URL.createObjectURL(team.logo)} alt=""/>
         {/each}
     {/if}
@@ -61,7 +61,7 @@
 
     function lol(id)
     {
-        scoreboard.home.teamId = id
+        $scoreboard.home.teamId = id
         console.log('ID: ' + id)
     }
 </script>

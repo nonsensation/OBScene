@@ -19,28 +19,12 @@ function persistantStore( key, defaultValue, storage )
     if( storedValueStr != null )
         store.set( JSON.parse( storedValueStr ) )
 
-    let seen = []
-
-    function replacer( key, val )
-    {
-        if( val != null && typeof val == "object" )
-        {
-            if( seen.indexOf( val ) >= 0 )
-            {
-                console.error( 'ALREADY SEEN: ' + key + " " + val )
-                return
-            }
-            seen.push( val )
-        }
-        return val
-    }
-
     store.subscribe( ( val ) =>
     {
         if( [ null, undefined ].includes( val ) )
             storage.removeItem( key )
         else
-            storage.setItem( key, JSON.stringify( val , replacer ) )
+            storage.setItem( key, JSON.stringify( val ) )
     } )
 
     window.addEventListener( 'storage', () =>

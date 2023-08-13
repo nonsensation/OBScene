@@ -59,7 +59,7 @@
         height: 3em;
         overflow: hidden;
         display: grid;
-        grid-template-columns: auto auto auto;
+        grid-template-columns: auto 1fr auto;
 
         &.home {
             color: black;
@@ -128,8 +128,11 @@
     let scoreHome, nameHome, teamHome, logoHome;
     let scoreGuest, nameGuest, teamGuest, logoGuest;
 
-    let teamHomeModel = liveQuery(() => db.teams.where("id").equals($scoreboard.home.teamId).first());
-    let teamGuestModel = liveQuery(() => db.teams.where("id").equals($scoreboard.guest.teamId).first());
+    let teamHomeModel;
+    let teamGuestModel;
+
+    $: teamHomeModel = liveQuery(() => db.teams.get({ id: $scoreboard.home.teamId }));
+    $: teamGuestModel = liveQuery(() => db.teams.get({ id: $scoreboard.guest.teamId }));
 
     $: if ($teamHomeModel) logoHome = URL.createObjectURL($teamHomeModel.logo);
     $: if ($teamGuestModel) logoGuest = URL.createObjectURL($teamGuestModel.logo);
