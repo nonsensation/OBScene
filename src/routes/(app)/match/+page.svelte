@@ -86,6 +86,11 @@
 
 <div class="container">
 
+    <div class="fullwidth">
+        <label for="time-color">OBS Link:</label>
+        <button id="time-color" on:click={() => navigator.clipboard.writeText(window.location.origin+"/overlay/active")}>{window.location.origin+"/overlay/active"}</button>
+    </div>
+
     <div class="fullwidth team">
         <h2>Preview</h2>
 
@@ -214,6 +219,7 @@
     import { db } from "$lib/database/dexie-db";
     import { scoreboard, overlayNames, currentOverlayName } from "$lib/stores/scoreboard-store";
     import { onMount } from "svelte";
+    import { page } from '$app/stores';
 
     let overlays = [];
     let currentOverlay;
