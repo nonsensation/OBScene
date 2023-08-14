@@ -11,12 +11,12 @@
         gap: 2rem;
         padding: 2rem;
 
-        .team {
+        .halfwidth {
             --min-width: 20rem;
             flex: 1 1 var(--min-width);
             min-width: var(--min-width);
         }
-        .scoreboard {
+        .fullwidth {
             flex-basis: 100%; /* new full width row */
             width: 100%;
         }
@@ -64,30 +64,74 @@
             pointer-events: none;
         }
     }
+
+    .preview {
+        background: gray
+            url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill-opacity=".25" ><rect x="50" width="50" height="50" /><rect y="50" width="50" height="50" /></svg>');
+        background-size: 1rem 1rem;
+
+        width: 100%;
+        min-height: 10rem;
+        height: auto;
+        border-radius: 0.25rem;
+        position: relative;
+
+        display: flex;
+        place-content: center;
+        place-items: center;
+    }
 </style>
 
-<h1>Under Construction</h1>
+<h1>Match Setup</h1>
 
 <div class="container">
 
-    <div class="scoreboard team">
+    <div class="fullwidth team">
+        <h2>Preview</h2>
+
+        <div class="preview">
+            {#if currentOverlay}
+                <svelte:component this={currentOverlay.component} scale={50} />
+            {:else}
+                <span>Overlay not set!</span>
+            {/if}
+        </div>
+    </div>
+
+    <div class="fullwidth">
+        <h2>Overlay</h2>
+
+        <label for="overlay">Overlay:</label>
+        <select id="overlay" bind:value={$currentOverlayName} on:change={onChangeOverlay}>
+            {#if overlayNames}
+                {#each overlayNames as overlayName}
+                    <option class:selected={$currentOverlayName === overlayName} value={overlayName}>
+                        {overlayName}
+                    </option>
+                {/each}
+            {/if}
+        </select>
+    </div>
+
+
+    <div class="fullwidth">
         <h2>Scoreboard</h2>
 
-        <button on:click={() => $scoreboard.time.enabled = !$scoreboard.time.enabled}>Toggle Time</button>
+        <button on:click={() => ($scoreboard.time.enabled = !$scoreboard.time.enabled)}>Toggle Time</button>
 
         <label for="time-color">Timer:</label>
         <div class="color" data-color={$scoreboard.time.textColor}>
             <input bind:value={$scoreboard.time.textColor} type="color" id="time-color" />
         </div>
 
-        <button on:click={() => $scoreboard.period.enabled = !$scoreboard.period.enabled}>Toggle Period</button>
+        <button on:click={() => ($scoreboard.period.enabled = !$scoreboard.period.enabled)}>Toggle Period</button>
 
         <label for="period-color">Periode:</label>
         <div class="color" data-color={$scoreboard.period.textColor}>
             <input bind:value={$scoreboard.period.textColor} type="color" id="period-color" />
         </div>
 
-        <button on:click={() => $scoreboard.special.enabled = !$scoreboard.special.enabled}>Toggle Special</button>
+        <button on:click={() => ($scoreboard.special.enabled = !$scoreboard.special.enabled)}>Toggle Special</button>
 
         <label for="special-color">Special:</label>
         <div class="color" data-color={$scoreboard.special.textColor}>
@@ -95,10 +139,10 @@
         </div>
 
         <label for="special-text">Special:</label>
-        <input type="text" id="special-text" bind:value={$scoreboard.special.text}>
+        <input type="text" id="special-text" bind:value={$scoreboard.special.text} />
     </div>
 
-    <div class="team home">
+    <div class="halfwidth home">
         <h2>Home-Team</h2>
 
         <!-- <img src={URL.createObjectURL($teams.where('id').equals(selectedTeamHome).first()?.logo)} alt="" /> -->
@@ -131,7 +175,7 @@
         </div>
     </div>
 
-    <div class="team guest">
+    <div class="halfwidth guest">
         <h2>Guest-Team</h2>
 
         <select class="select" bind:value={$scoreboard.guest.teamId} on:change={onChange}>
@@ -168,8 +212,38 @@
 <script>
     import { liveQuery } from "dexie";
     import { db } from "$lib/database/dexie-db";
-    import { scoreboard } from "$lib/stores/scoreboard-store";
+    import { scoreboard, overlayNames, currentOverlayName } from "$lib/stores/scoreboard-store";
     import { onMount } from "svelte";
+
+    let overlays = [];
+    let currentOverlay;
+
+    onMount(async () => {
+        for (const overlayName of overlayNames) {
+            try {
+                // cannot use $lib in dynamic string import (yet)
+                // See: https://github.com/vitejs/vite/pull/7756
+                const componentName = `/src/lib/overlays/${overlayName}.svelte`;
+                const component = (await import(/* @vite-ignore */ componentName)).default;
+                const overlay = {
+                    name: overlayName,
+                    component,
+                };
+                overlays = [...overlays, overlay];
+
+                if (overlayName === $currentOverlayName) {
+                    currentOverlay = overlay;
+                    console.log("SET OVERLAY: " + overlay.name)
+                }
+            } catch (error) {
+                console.error("Could not load dynamic svelte component: " + overlayName, error);
+            }
+        }
+    });
+
+    async function onChangeOverlay() {
+        currentOverlay = overlays.find((o) => o.name == $currentOverlayName);
+    }
 
     let allTeams;
     let teams;
@@ -187,8 +261,7 @@
         teams = liveQuery(() => allTeams);
     });
 
-    async function reset()
-    {
-        localStorage.removeItem( 'scoreboard' );
+    async function reset() {
+        localStorage.removeItem("scoreboard");
     }
 </script>

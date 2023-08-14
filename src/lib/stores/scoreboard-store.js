@@ -1,8 +1,19 @@
 import { writable, readable, get } from 'svelte/store'
 import { sessionStore, localStore } from './PersistantStore'
 
+export const overlayNames = [
+    // "Popup_Goal_v1",
+    // "Starting_FD_Pokal_v1",
+    // "Starting_v1",
+    // "Scoreboard_PremierLeague_v1",
+    // "Scoreboard_Floorball_Goal_v2",
+    "Scoreboard_Floorball_WFC2019_v1",
+]
+
+export const currentOverlayName = localStore( 'currentOverlayName', overlayNames[ 0 ] )
+
 export const scoreboard = localStore( 'scoreboard', {
-    home : {
+    home: {
         score: 0,
         teamId: 0,
         name: "Wildfire Tigers",
@@ -13,7 +24,7 @@ export const scoreboard = localStore( 'scoreboard', {
         secondaryColor: "#0088ff",
         background: "",
     },
-    guest : {
+    guest: {
         score: 0,
         teamId: 1,
         name: "Stealth Strikers",
@@ -24,14 +35,14 @@ export const scoreboard = localStore( 'scoreboard', {
         secondaryColor: "#ff0000",
         background: "",
     },
-    period:  {
+    period: {
         enabled: true,
         textColor: '#000000',
         backgroundColor: '#ffffff',
         number: 1,
         text: '1. Drittel',
     },
-    special:  {
+    special: {
         enabled: true,
         textColor: '#000000',
         backgroundColor: '#ffffff',

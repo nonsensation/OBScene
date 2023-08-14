@@ -46,15 +46,9 @@
     import { fade } from "svelte/transition";
 
     import { onMount } from "svelte";
+    import { overlayNames } from '$lib/stores/scoreboard-store'
+
     let overlays = [];
-    let overlayNames = [
-        // "Popup_Goal_v1",
-        // "Starting_FD_Pokal_v1",
-        // "Starting_v1",
-        // "Scoreboard_PremierLeague_v1",
-        // "Scoreboard_Floorball_Goal_v2",
-        "Scoreboard_Floorball_WFC2019_v1",
-    ];
 
     onMount(async () => {
         for (const overlayName of overlayNames) {
