@@ -160,7 +160,7 @@
     $: if (timer) timer.style.color = $scoreboard.time.enabled ? $scoreboard.time.textColor : "transparent";
 
     $: if (period) period.textContent = $scoreboard.period.text;
-    $: if (special) period.style.color = $scoreboard.period.enabled ? $scoreboard.period.textColor : "transparent";
+    $: if (period) period.style.color = $scoreboard.period.enabled ? $scoreboard.period.textColor : "transparent";
 
     $: if (special) special.textContent = $scoreboard.special.text;
     $: if (special) special.style.color = $scoreboard.special.enabled ? $scoreboard.special.textColor : "transparent";
