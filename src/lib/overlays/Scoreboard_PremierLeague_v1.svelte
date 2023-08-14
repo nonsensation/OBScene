@@ -68,32 +68,33 @@
         /* overflow: hidden; */
 
         &:before {
-                content: '';
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                background: var(--bg);
-                background-repeat: no-repeat;
-                background-position: center;
-                background-size: cover;
-                z-index: -1;
-                opacity: 0.1;
-                filter: grayscale();
-                mix-blend-mode: difference;
-            }
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            background-size: 50%;
+            z-index: -1;
+            opacity: 0.1;
+            filter: grayscale();
+            /* mix-blend-mode: difference; */
+        }
 
         &.home {
             border-left: 8px solid white;
             &:before {
-                background-position: 0%;
+                /* background-position: 0%; */
             }
         }
         &.guest {
             border-right: 8px solid red;
             &:before {
-                background-position: 100%;
+                /* background-position: 100%; */
             }
         }
 
@@ -144,7 +145,6 @@
         text-align: center;
     }
     .time {
-        color: #34003a;
         background-color: #34003a;
         color: white;
         text-align: center;
@@ -152,6 +152,7 @@
         line-height: 80%;
         padding: 0.5em 1em;
         box-shadow: 0 0 10px 3px black;
+
     }
 
     .logo {
@@ -160,13 +161,18 @@
         z-index: 0;
         img {
             /* border: 1px solid red; */
-            max-width: 4em;
+            max-width: 100%;
             position: absolute;
             top: 0;
             left: 0;
-            transform: translateY(-80%);
-            filter: drop-shadow(0px 0px 5px black);
+            transform: translateY(-85%);
+            filter: drop-shadow(0px 0px 5px black) drop-shadow(0px 0px 10px black);
         }
+    }
+
+    .divider {
+        color: transparent;
+        mix-blend-mode: difference;
     }
 </style>
 
@@ -178,10 +184,10 @@
         <div bind:this={teamHome} class="team home">
             <div bind:this={nameHome} class="name">Wildfire Tigers</div>
         </div>
-        <div class="score">
-            <div bind:this={scoreHome} class="">0</div>
-            <div class="divider">-</div>
-            <div bind:this={scoreGuest} class="">0</div>
+        <div class="score" bind:this={score}>
+            <div bind:this={scoreHome} class="scores">0</div>
+            <div class="divider scores">-</div>
+            <div bind:this={scoreGuest} class="scores">0</div>
         </div>
         <div bind:this={teamGuest} class="team guest">
             <div bind:this={nameGuest} class="name">Stealth Strikers</div>
@@ -201,7 +207,7 @@
 
     export let scale = 100;
 
-    let timer, period;
+    let timer, period, score;
     let scoreHome, nameHome, teamHome, logoHome;
     let scoreGuest, nameGuest, teamGuest, logoGuest;
 
@@ -219,14 +225,12 @@
     $: if (nameHome) nameHome.textContent = $scoreboard.home.name;
     $: if (nameHome) nameHome.style.color = $scoreboard.home.textColor;
     $: if (scoreHome) scoreHome.textContent = $scoreboard.home.score;
-    $: if (scoreHome) scoreHome.style.color = $scoreboard.home.scoreColor;
 
     $: if (teamGuest) teamGuest.style.backgroundColor = $scoreboard.guest.primaryColor;
     $: if (teamGuest) teamGuest.style.borderColor = $scoreboard.guest.secondaryColor;
     $: if (nameGuest) nameGuest.textContent = $scoreboard.guest.name;
     $: if (nameGuest) nameGuest.style.color = $scoreboard.guest.textColor;
     $: if (scoreGuest) scoreGuest.textContent = $scoreboard.guest.score;
-    $: if (scoreGuest) scoreGuest.style.color = $scoreboard.guest.scoreColor;
 
     $: if (timer) timer.textContent = $scoreboard.time.min + ":" + $scoreboard.time.sec;
     $: if (timer) timer.style.color = $scoreboard.time.textColor;
@@ -236,6 +240,8 @@
     $: if (period) period.style.color = $scoreboard.period.textColor;
     $: if (period) period.style.display = $scoreboard.period.enabled ? "block" : "none";
 
-    $: if (teamHome) teamHome.style.setProperty('--bg', `url(${logoHome})` );
-    $: if (teamGuest) teamGuest.style.setProperty('--bg', `url(${logoGuest})` );
+    $: if (teamHome) teamHome.style.setProperty("--bg", `url(${logoHome})`);
+    $: if (teamGuest) teamGuest.style.setProperty("--bg", `url(${logoGuest})`);
+
+    $: if (score) score.style.backgroundColor = $scoreboard.special.textColor;
 </script>
