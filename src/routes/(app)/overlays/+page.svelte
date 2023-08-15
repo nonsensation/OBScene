@@ -36,35 +36,20 @@
 
 <div class="cards">
     {#each overlays as overlay}
-        <a class="card preview" href="/overlay/{overlay.name}">
+        <a class="card preview" href="/overlay/active" on:click={() => ($currentOverlayId = overlay.id)}>
+            <span>{overlay.displayName} (#{overlay.id})</span>
             <svelte:component this={overlay.component} scale={75} />
         </a>
     {/each}
 </div>
 
 <script>
-    import { fade } from "svelte/transition";
-
     import { onMount } from "svelte";
-    import { overlayNames } from '$lib/stores/scoreboard-store'
+    import { currentOverlayId , loadOverlays } from "$lib/stores/scoreboard-store";
 
     let overlays = [];
 
     onMount(async () => {
-        for (const overlayName of overlayNames) {
-            try {
-                // cannot use $lib in dynamic string import (yet)
-                // See: https://github.com/vitejs/vite/pull/7756
-                const componentName = `/src/lib/overlays/${overlayName}.svelte`;
-                const component = (await import(/* @vite-ignore */ componentName)).default;
-                const overlay = {
-                    name: overlayName,
-                    component,
-                };
-                overlays = [...overlays, overlay];
-            } catch (error) {
-                console.error("Could not load dynamic svelte component: " + overlayName, error);
-            }
-        }
+        overlays = await loadOverlays()
     });
 </script>

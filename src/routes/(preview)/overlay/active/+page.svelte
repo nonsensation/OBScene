@@ -8,12 +8,12 @@
 
 <a in:fade href="/overlays" title="Click anywhere to go back">
     {#if overlay}
-        <svelte:component this={overlay} {scale} />
+        <svelte:component this={overlay.component} {scale} />
     {/if}
 </a>
 
 <script type="text/javascript">
-    import { currentOverlayName } from "$lib/stores/scoreboard-store";
+    import { currentOverlayId, loadOverlay } from "$lib/stores/scoreboard-store";
     import { page } from "$app/stores";
     import { goto } from "$app/navigation";
     import { onMount } from "svelte";
@@ -24,18 +24,9 @@
     let overlay;
 
     onMount(async () => {
-        await loadOverlay( $currentOverlayName );
+        console.log( "Overlays: "+ $currentOverlayId)
+        overlay = await loadOverlay($currentOverlayId);
     });
 
-    async function loadOverlay( overlayName )
-    {
-        try {
-            const componentName = `/src/lib/overlays/${overlayName}.svelte`;
-            overlay = (await import(/* @vite-ignore */ componentName)).default;
-        } catch (error) {
-            console.error("Could not load dynamic svelte component: " + overlayName, error);
-        }
-    }
-
-    $: loadOverlay( $currentOverlayName )
+    $: loadOverlay($currentOverlayId).then( result => overlay = result )
 </script>

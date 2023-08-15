@@ -1,4 +1,4 @@
-<style lang="postcss">
+<!-- <style lang="postcss">
     button.delete {
         border-color: crimson;
 
@@ -19,7 +19,16 @@
 
     export let data;
 
-    let { team } = data;
+    async function load({ params }) {
+        const teamId = Number(params.teamId);
+        const team = await db.teams.get({ id: teamId });
+
+        return {
+            team,
+        };
+    }
+
+    let team = db.teams.get({ id: teamId });
 
     async function deleteTeam() {
         if (!confirm(`Delete Team ${team.name}?`)) return;
@@ -28,4 +37,4 @@
 
         goto("/teams");
     }
-</script>
+</script> -->

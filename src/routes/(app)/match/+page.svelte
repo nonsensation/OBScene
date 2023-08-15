@@ -107,11 +107,11 @@
         <h2>Overlay</h2>
 
         <label for="overlay">Overlay:</label>
-        <select id="overlay" bind:value={$currentOverlayName} on:change={onChangeOverlay}>
-            {#if overlayNames}
-                {#each overlayNames as overlayName}
-                    <option class:selected={$currentOverlayName === overlayName} value={overlayName}>
-                        {overlayName}
+        <select id="overlay" bind:value={$currentOverlayId}>
+            {#if Overlays}
+                {#each Overlays as overlay}
+                    <option class:selected={$currentOverlayId === overlay.id} value={overlay.id}>
+                        {overlay.displayName}
                     </option>
                 {/each}
             {/if}
@@ -217,7 +217,7 @@
 <script>
     import { liveQuery } from "dexie";
     import { db } from "$lib/database/dexie-db";
-    import { scoreboard, overlayNames, currentOverlayName } from "$lib/stores/scoreboard-store";
+    import { scoreboard, loadOverlays , currentOverlayId , Overlays} from "$lib/stores/scoreboard-store";
     import { onMount } from "svelte";
     import { page } from '$app/stores';
 
@@ -225,31 +225,10 @@
     let currentOverlay;
 
     onMount(async () => {
-        for (const overlayName of overlayNames) {
-            try {
-                // cannot use $lib in dynamic string import (yet)
-                // See: https://github.com/vitejs/vite/pull/7756
-                const componentName = `/src/lib/overlays/${overlayName}.svelte`;
-                const component = (await import(/* @vite-ignore */ componentName)).default;
-                const overlay = {
-                    name: overlayName,
-                    component,
-                };
-                overlays = [...overlays, overlay];
-
-                if (overlayName === $currentOverlayName) {
-                    currentOverlay = overlay;
-                    console.log("SET OVERLAY: " + overlay.name)
-                }
-            } catch (error) {
-                console.error("Could not load dynamic svelte component: " + overlayName, error);
-            }
-        }
+        overlays = await loadOverlays();
     });
 
-    async function onChangeOverlay() {
-        currentOverlay = overlays.find((o) => o.name == $currentOverlayName);
-    }
+    $: currentOverlay = overlays.find(x => x.id == $currentOverlayId);
 
     let allTeams;
     let teams;

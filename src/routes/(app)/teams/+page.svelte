@@ -198,12 +198,7 @@
 </div> -->
 
 <script>
-    import { goto } from "$app/navigation";
-    import { fade } from "svelte/transition";
 
-    import logo1 from "$lib/assets/logos/Floorball Deutschland 1.png";
-    import logo2 from "$lib/assets/logos/Logo Black Lions Landsberg 0.png";
-    import logo3 from "$lib/assets/logos/Logo Hannover 96 - SW 3.png";
 
     import { liveQuery } from "dexie";
     import { db } from "$lib/database/dexie-db";
