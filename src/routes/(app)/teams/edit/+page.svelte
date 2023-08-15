@@ -1,4 +1,4 @@
-<!-- <style lang="postcss">
+<style lang="postcss">
     button.delete {
         border-color: crimson;
 
@@ -9,26 +9,23 @@
     }
 </style>
 
-<h1>{team.name}</h1>
+{#if team}
+    <h1>{team.name}</h1>
 
-<button on:click={deleteTeam} class="delete">Delete Team</button>
+    <button on:click={deleteTeam} class="delete">Delete Team</button>
+{/if}
 
 <script>
+    import { currentTeamId } from "$lib/stores/state-store";
     import { goto } from "$app/navigation";
     import { db } from "$lib/database/dexie-db";
+    import { onMount } from "svelte";
 
-    export let data;
+    onMount(async () => {
+        team = await db.teams.get({ id: $currentTeamId });
+    });
 
-    async function load({ params }) {
-        const teamId = Number(params.teamId);
-        const team = await db.teams.get({ id: teamId });
-
-        return {
-            team,
-        };
-    }
-
-    let team = db.teams.get({ id: teamId });
+    let team;
 
     async function deleteTeam() {
         if (!confirm(`Delete Team ${team.name}?`)) return;
@@ -37,4 +34,4 @@
 
         goto("/teams");
     }
-</script> -->
+</script>

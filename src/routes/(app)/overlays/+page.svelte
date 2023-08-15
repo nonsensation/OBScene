@@ -14,7 +14,7 @@
             width: 100%;
             min-height: 17rem;
             height: auto;
-            border-radius: 0.25rem;
+            border-radius: var(--border-radius);
             position: relative;
 
             &:hover,
@@ -29,6 +29,22 @@
         background: gray
             url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill-opacity=".25" ><rect x="50" width="50" height="50" /><rect y="50" width="50" height="50" /></svg>');
         background-size: 1rem 1rem;
+    }
+
+    span {
+        position:absolute;
+        bottom: 0;
+        left: 0;
+        font-size: 75%;
+        font-weight: bold;
+        background-color: white;
+        width: 100%;
+        padding: 0.5em;
+        border-radius: var(--border-radius);
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border: var(--border);
+        z-index: 19999;
     }
 </style>
 

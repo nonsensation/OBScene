@@ -164,7 +164,7 @@
 <div class="cards">
     {#if $teams}
         {#each $teams as team (team.id)}
-            <a class="card" href="/teams/{team.id}" title="See Team {team.name}">
+            <a class="card" href="/teams/edit" on:click={() => $currentTeamId = team.id} title="See Team {team.name}">
                 <img class="logo" src={URL.createObjectURL(team.logo)} alt="Logo" />
                 <div class="name">{team.name}</div>
             </a>
@@ -202,6 +202,7 @@
 
     import { liveQuery } from "dexie";
     import { db } from "$lib/database/dexie-db";
+    import {currentTeamId } from '$lib/stores/state-store'
 
     export let data;
 
