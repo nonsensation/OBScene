@@ -68,7 +68,7 @@
     }
 
     .table {
-        display: none;
+        /* display: none; */
     }
 
     .cards {
@@ -164,7 +164,7 @@
 <div class="cards">
     {#if $teams}
         {#each $teams as team (team.id)}
-            <a class="card" href="/teams/edit" on:click={() => $currentTeamId = team.id} title="See Team {team.name}">
+            <a class="card" href="/teams/edit" on:click={() => ($currentTeamId = team.id)} title="See Team {team.name}">
                 <img class="logo" src={URL.createObjectURL(team.logo)} alt="Logo" />
                 <div class="name">{team.name}</div>
             </a>
@@ -172,7 +172,11 @@
     {/if}
 </div>
 
-<!-- <div class="table">
+
+
+
+
+<div class="table">
     <div class="header">
         <div class="row">
             <div class="col">#</div>
@@ -181,13 +185,15 @@
         </div>
     </div>
     <div class="content">
-        {#each $teams as team}
-            <a class="row" href="/team/{team.Id}" title="See Team {team.Name}">
-                <div class="col">{team.Id}</div>
-                <div class="col">{team.Name}</div>
-                <div class="col">0</div>
-            </a>
-        {/each}
+        {#if $teams}
+            {#each $teams as team (team.id)}
+                <a class="row" href="/team/{team.id}" title="See Team {team.name}">
+                    <div class="col">{team.id}</div>
+                    <div class="col">{team.name}</div>
+                    <div class="col">0</div>
+                </a>
+            {/each}
+        {/if}
     </div>
     <div class="footer">
         <a role="button" href="/team/create" title="Add a new Team">
@@ -195,14 +201,12 @@
             <span class="">Add new Team</span>
         </a>
     </div>
-</div> -->
+</div>
 
 <script>
-
-
     import { liveQuery } from "dexie";
     import { db } from "$lib/database/dexie-db";
-    import {currentTeamId } from '$lib/stores/state-store'
+    import { currentTeamId } from "$lib/stores/state-store";
 
     export let data;
 

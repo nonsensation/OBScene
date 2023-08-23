@@ -25,6 +25,8 @@
 - Flip Card Timer: https://zoel-countdowntimer.vercel.app/
 - Zod https://zod.dev/
 
+- (https://www.youtube.com/watch?v=285vSLe9LQ8) + vite-imagetools (unused for now, i guess)
+
 #### Project Structure
 
 - _(app)_-Layout: everything that is displayed and can be interacted with
