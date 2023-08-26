@@ -39,6 +39,6 @@
 <script>
     import { ObsOutputState } from "$lib/stores/obs-store";
 
-    export let state;
-    export let title;
+    export let state = undefined;
+    export let title = undefined;
 </script>

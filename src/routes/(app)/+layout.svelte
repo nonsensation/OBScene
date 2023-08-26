@@ -156,6 +156,11 @@
             path: "/match/",
         },
         {
+            text: "OCR",
+            icon: "scoreboard",
+            path: "/OCR/",
+        },
+        {
             text: "Floorball",
             icon: "sports_hockey",
             path: "/floorball/",

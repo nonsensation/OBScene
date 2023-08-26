@@ -41,5 +41,5 @@
 <script>
     export let title;
     export let name;
-    export let slot;
+    export let slot = undefined;
 </script>

@@ -22,6 +22,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@techstark/opencv-js": "4.8.0-release.4",
     "dexie": "4.0.1-alpha.25",
     "dseg": "^0.46.0",
     "indexeddb-export-import": "^2.1.5",
@@ -29,6 +30,7 @@
     "material-symbols": "^0.10.2",
     "obs-websocket-js": "^5.0.3",
     "pnpm": "^8.6.12",
+    "tesseract.js": "^4.1.1",
     "vite-imagetools": "^5.0.8",
     "zod": "^3.21.4"
   },

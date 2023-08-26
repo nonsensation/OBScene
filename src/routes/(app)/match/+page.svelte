@@ -80,6 +80,22 @@
         place-content: center;
         place-items: center;
     }
+
+    .sbImgWrap {
+        background: gray
+            url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill-opacity=".25" ><rect x="50" width="50" height="50" /><rect y="50" width="50" height="50" /></svg>');
+        background-size: 1rem 1rem;
+        width: 100%;
+        padding: 1rem;
+    }
+    .sbImg {
+        --threshold: 10%;
+        width: 100%;
+        filter:invert() grayscale() brightness() contrast(1000%) ;
+
+        mix-blend-mode: multiply;
+        isolation: isolate;
+    }
 </style>
 
 <h1>Match Setup</h1>
@@ -212,6 +228,10 @@
     </div>
 
     <button on:click={reset}>Reset all Values!</button>
+
+    <div class="sbImgWrap">
+        <img class="sbImg" src={sbImg}>
+    </div>
 </div>
 
 <script>
@@ -220,6 +240,8 @@
     import { scoreboard, loadOverlays , currentOverlayId , Overlays} from "$lib/stores/scoreboard-store";
     import { onMount } from "svelte";
     import { page } from '$app/stores';
+
+    import sbImg from '$lib/assets/logos/scoreboard-img.png'
 
     let overlays = [];
     let currentOverlay;

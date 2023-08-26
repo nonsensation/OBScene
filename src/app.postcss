@@ -41,7 +41,8 @@ body {
 
 textarea,
 button,
-input,select {
+input,
+select {
     font-family: 'Ubuntu', sans-serif;
     font-weight: bold;
     background-color: transparent;
@@ -53,8 +54,25 @@ input,select {
     &:focus {
         outline: var(--focus-outline);
     }
+
     &:hover {
         outline: var(--hover-outline);
+    }
+
+    &[type="range"] {
+        padding-left: 0;
+        padding-right: 0;
+        cursor: ew-resize;
+        accent-color: var(--hover-color);
+
+        &:hover {
+            outline: none;
+            accent-color: var(--hover-color);
+        }
+
+        &:focus {
+            accent-color: var(--focus-color);
+        }
     }
 }
 

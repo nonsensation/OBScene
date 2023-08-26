@@ -24,8 +24,10 @@
 - Logo Lion https://pixabay.com/illustrations/cat-lion-animal-wildlife-wild-941821/
 - Flip Card Timer: https://zoel-countdowntimer.vercel.app/
 - Zod https://zod.dev/
+- https://github.com/TechStark/opencv-js
 
 - (https://www.youtube.com/watch?v=285vSLe9LQ8) + vite-imagetools (unused for now, i guess)
+- https://github.com/naptha/tesseract.js
 
 #### Project Structure
 
@@ -43,3 +45,9 @@
 - filter overlays
 - multiple parameters (alignment)
 
+
+
+## OBS
+
+- Enable Media Devices in OBS Browser (also Docks): https://obsproject.com/forum/threads/using-browser-as-source-camera-mic-not-blocked-but-crossed-out-camera-image-on-obs-screen.123776/
+    - `obs --use-fake-ui-for-media-stream`
