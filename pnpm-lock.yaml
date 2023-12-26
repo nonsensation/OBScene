@@ -920,8 +920,8 @@ packages:
       - encoding
     dev: false
 
-  /crypto-js@4.1.1:
-    resolution: {integrity: sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==}
+  /crypto-js@4.2.0:
+    resolution: {integrity: sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==}
     dev: false
 
   /css-blank-pseudo@6.0.0(postcss@8.4.27):
@@ -1317,7 +1317,7 @@ packages:
     engines: {node: '>12.0'}
     dependencies:
       '@msgpack/msgpack': 2.8.0
-      crypto-js: 4.1.1
+      crypto-js: 4.2.0
       debug: 4.3.4
       eventemitter3: 5.0.1
       isomorphic-ws: 5.0.0(ws@8.13.0)
