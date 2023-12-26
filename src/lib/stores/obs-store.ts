@@ -239,6 +239,26 @@ export async function obsSendData( eventName: string, data: any ): Promise<any |
     return response
 }
 
+export async function obsCall( eventName: string, data: any | undefined )
+{
+    if( get( obsConnectionState ) !== ObsConnectionState.Connected )
+    {
+        obsLog( `Cannot send data ${ eventName } - not connected!` )
+
+        return
+    }
+
+    if( data )
+        console.assert( data === Object( data ), 'Primitive values cannot be send! Make it an Object instead ({data: myData})' )
+
+    var response = await get( obs ).call( eventName, data )
+
+    obsLog( `Request: ${ eventName }: ${ JSON.stringify( data ) }` )
+    obsLog( `Response: ${ JSON.stringify( response ) }` )
+
+    return response
+}
+
 export async function obsToggleConnection()
 {
     const url = `ws://${ get( obsIp ) }:${ get( obsPort ) }`

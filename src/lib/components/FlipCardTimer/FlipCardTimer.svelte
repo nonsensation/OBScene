@@ -17,7 +17,7 @@
 
 <div>
     <!-- <FlipCard callback={handleTick} name="Tage" number={time.days} /> -->
-    <!-- <FlipCard callback={handleTick} name="Stunden" number={time.hours} /> -->
+    <FlipCard callback={handleTick} name="Stunden" number={time.hours} />
     <FlipCard callback={handleTick} name="Minuten" number={time.minutes} />
     <FlipCard callback={handleTick} name="Sekunden" number={time.seconds} />
 </div>

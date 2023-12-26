@@ -15,6 +15,7 @@
 
     .table {
         display: grid;
+        display: grid;
         grid-template-rows: 1fr auto 1fr;
         border: 1px solid black;
         border-radius: 0.25rem;
@@ -68,7 +69,7 @@
     }
 
     .table {
-        /* display: none; */
+        display: none;
     }
 
     .cards {

@@ -91,7 +91,7 @@
     .sbImg {
         --threshold: 10%;
         width: 100%;
-        filter:invert() grayscale() brightness() contrast(1000%) ;
+        filter: invert() grayscale() brightness() contrast(1000%);
 
         mix-blend-mode: multiply;
         isolation: isolate;
@@ -100,11 +100,22 @@
 
 <h1>Match Setup</h1>
 
-<div class="container">
+<button on:click={getSceneList}>Szenen</button>
 
+{#if sceneList}
+    {#each sceneList.filter( s => !s.sceneName.startsWith('_') ) as scene}
+        <button on:click={async () => setScene(scene.sceneName)}>{scene.sceneName}</button>
+    {/each}
+{/if}
+
+<div class="container">
     <div class="fullwidth">
         <label for="time-color">OBS Link:</label>
-        <button id="time-color" on:click={() => navigator.clipboard.writeText(window.location.origin+"/overlay/active")}>{window.location.origin+"/overlay/active"}</button>
+        <button
+            id="time-color"
+            on:click={() => navigator.clipboard.writeText(window.location.origin + "/overlay/active")}
+            >{window.location.origin + "/overlay/active"}</button
+        >
     </div>
 
     <div class="fullwidth team">
@@ -133,7 +144,6 @@
             {/if}
         </select>
     </div>
-
 
     <div class="fullwidth">
         <h2>Scoreboard</h2>
@@ -230,27 +240,31 @@
     <button on:click={reset}>Reset all Values!</button>
 
     <div class="sbImgWrap">
-        <img class="sbImg" src={sbImg}>
+        <img class="sbImg" src={sbImg} />
     </div>
 </div>
 
 <script>
     import { liveQuery } from "dexie";
     import { db } from "$lib/database/dexie-db";
-    import { scoreboard, loadOverlays , currentOverlayId , Overlays} from "$lib/stores/scoreboard-store";
+    import { scoreboard, loadOverlays, currentOverlayId, Overlays } from "$lib/stores/scoreboard-store";
     import { onMount } from "svelte";
-    import { page } from '$app/stores';
+    import { page } from "$app/stores";
 
-    import sbImg from '$lib/assets/logos/scoreboard-img.png'
+    import { obsCall } from "$lib/stores/obs-store";
+
+    import sbImg from "$lib/assets/logos/scoreboard-img.png";
 
     let overlays = [];
     let currentOverlay;
+
+    let sceneList = [];
 
     onMount(async () => {
         overlays = await loadOverlays();
     });
 
-    $: currentOverlay = overlays.find(x => x.id == $currentOverlayId);
+    $: currentOverlay = overlays.find((x) => x.id == $currentOverlayId);
 
     let allTeams;
     let teams;
@@ -270,5 +284,15 @@
 
     async function reset() {
         localStorage.removeItem("scoreboard");
+    }
+
+    async function getSceneList() {
+        let { scenes } = await obsCall("GetSceneList");
+
+        if (scenes) sceneList = scenes;
+    }
+
+    async function setScene(sceneName) {
+        await obsCall("SetCurrentProgramScene", { sceneName } );
     }
 </script>

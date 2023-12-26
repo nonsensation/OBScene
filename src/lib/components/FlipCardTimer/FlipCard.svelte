@@ -16,6 +16,8 @@
         font-family: "Red Hat Text", sans-serif;
         /* font-size: 150%; */
         font-weight: 900;
+        justify-content: center;
+        align-items: center;
 
     }
 
@@ -99,6 +101,7 @@
         min-width: 3.5rem;
         font-size: 5em;
         height: 1em;
+        text-align: center;
     }
 
     /* middle hinge */

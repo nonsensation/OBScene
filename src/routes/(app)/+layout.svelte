@@ -63,7 +63,7 @@
     }
 </style>
 
-<Meta title="lol" />
+<Meta title="Sideline" />
 <div id="layout">
     <header class="flex">
         {#each navItems as navItem}

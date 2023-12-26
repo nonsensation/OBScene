@@ -13,3 +13,5 @@ export const filter = localStore( 'filterSettings' , {
         maxSmooth: 0.0 ,
     }
 })
+
+export const corners = localStore( 'ocr-corners' , [] )
